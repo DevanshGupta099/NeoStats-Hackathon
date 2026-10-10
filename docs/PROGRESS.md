@@ -1,6 +1,6 @@
 # Progress (update after every session)
-Last updated: 2026-10-10 11:22 IST
-Current phase: Phase 1 — Backend Foundation (Done) -> Phase 2 (Next)
+Last updated: 2026-10-10 11:55 IST
+Current phase: Fast-Track Block C (Done) -> Block D (Next)
 
 | Phase | Status | Branch/Tag | Notes |
 |:---:|:---:|:---:|:---|
@@ -9,26 +9,24 @@ Current phase: Phase 1 — Backend Foundation (Done) -> Phase 2 (Next)
 | 2 | done | phase/2-domain-apis / v0.1 | PolicyService matrix, all domain CRUD APIs, 409 optimistic locking, transactional activity & notifications, 25 e2e tests |
 | 3 | doing | phase/3-realtime / v0.2 | Socket.IO gateway, rooms, post-commit domain events (Fast-track Block B) |
 | 4 | todo | phase/4-backend-hardening | Rate limits, security headers, query indexing, e2e test matrix |
-| 5 | todo | phase/5-design-system-3d | R3F persistent canvas, View portals, ForgeText, design tokens |
-| 6 | todo | phase/6-auth-core-pages | Login, dashboard, project overview, team, user administration |
+| 5 | done | phase/5-design-system | R3F persistent canvas, View portals, ForgeText, design tokens, HeroForge login (Block C) |
+| 6 | doing | phase/6-auth-core-pages | Login, dashboard, project overview, team, user administration (Block D) |
 | 7 | todo | phase/7-board-tasks-live / v0.3 | Kanban DnD, conflict UI, comments, live cache patching |
-| 8 | todo | phase/8-ai-features | Groq digest and smart task draft (feature-flagged) |
+| 8 | todo | phase/8-ai-features | Mistral digest and smart task draft (feature-flagged) |
 | 9 | todo | phase/9-polish-performance | Lighthouse mobile pass, a11y, asset optimization |
 | 10 | todo | phase/10-submission / v1.0 | README final, demo script, architecture & explainer documentation |
 
 ### Recent decisions:
-- Implemented complete Prisma schema with all 8 models, `citext` email extension, composite indexes, and race-safe `task_counter` on projects.
-- Migrated dev database on port 5434 and test database on port 5433 to avoid host Windows Postgres collision.
-- Built idempotent database seed script (`pnpm db:seed`) creating 7 users across all 4 roles, 3 projects, 40 tasks across all statuses, comments with @mentions, activity logs, and notifications.
-- Verified `pnpm db:reset` cleanly rebuilds database from scratch and runs seed automatically.
-- Implemented complete cross-cutting infra: Global exception filter with standard error envelope and request ID tracking, Zod 422 validation pipe, Helmet security headers, Throttler rate limiting, Swagger UI at `/api/docs`, and `/health` + `/health/db` endpoints.
-- Implemented Auth module with Argon2id hashing, short-lived access JWT, rotating refresh tokens in httpOnly cookies, token family reuse detection, and session invalidation via `token_version`.
-- 12/12 Jest e2e tests passing against test database container on port 5433.
+- Completed Fast-track Block C: local font pipeline (5 families), CSS variables and Three.js shader token bridge.
+- Built persistent root `<Canvas>` with drei `<View>` portals, eliminating multi-context WebGL leaks.
+- Implemented `<ForgeText>` with kinetic 3D typography and accessible DOM fallbacks.
+- Shipped full-bleed `HeroForge` login with ember particle simulation, parallax tilt, and DEMO role selector chips.
+- Quality tier store auto-selects LOW or HIGH based on GPU tier, mobile status, and prefers-reduced-motion.
 
 ### Known issues:
 - None.
 
 ### Next 3 actions:
-1. Implement pure `PolicyService` unit test matrix covering all role × action × ownership scenarios.
-2. Build domain modules (Users, Projects, Members, Tasks, Comments) with atomic `version` updates returning HTTP 409 on conflict.
-3. Wire transactional activity logging and actor-excluded notifications.
+1. Build Dashboard & Projects list with real API data binding (Block D).
+2. Wire Kanban board and task detail drawer with real-time updates.
+3. Integrate optimistic conflict resolution drawer on HTTP 409.

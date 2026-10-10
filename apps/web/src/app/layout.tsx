@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AuthProvider } from '@/lib/auth-context';
+import { AppShell } from '@/components/layout/app-shell';
+import { GlobalCanvas } from '@/components/canvas/global-canvas';
+import { SmoothScroll } from '@/components/layout/smooth-scroll';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'FORGELINE — Operations Forge',
-  description: 'Multi-user collaborative project management platform',
+  title: 'FORGELINE — High-Concurrency Project Engine',
+  description: 'Industrial real-time project operations platform with optimistic concurrency control',
 };
 
 export default function RootLayout({
@@ -12,9 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-[#060709] text-[#ECE8DF] antialiased">
-        {children}
+    <html lang="en" className="dark">
+      <body className="min-h-screen bg-void text-bone antialiased selection:bg-plasma selection:text-void font-body">
+        <SmoothScroll>
+          <AuthProvider>
+            <div id="app-root" className="relative min-h-screen">
+              <GlobalCanvas />
+              <AppShell>{children}</AppShell>
+              <Toaster />
+            </div>
+          </AuthProvider>
+        </SmoothScroll>
       </body>
     </html>
   );
