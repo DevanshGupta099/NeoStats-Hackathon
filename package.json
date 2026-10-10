@@ -1,0 +1,33 @@
+{
+  "name": "forgeline-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Forgeline - Multi-user collaborative project management platform for NeoStats Hackathon",
+  "author": "Devansh Gupta",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"API,WEB\" -c \"yellow.bold,cyan.bold\" \"pnpm --filter @forgeline/api dev\" \"pnpm --filter @forgeline/web dev\"",
+    "dev:web": "pnpm --filter @forgeline/web dev",
+    "dev:api": "pnpm --filter @forgeline/api dev",
+    "build": "pnpm --filter @forgeline/shared build && pnpm --filter @forgeline/api build && pnpm --filter @forgeline/web build",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --filter @forgeline/api db:migrate",
+    "db:seed": "pnpm --filter @forgeline/api db:seed",
+    "db:reset": "pnpm --filter @forgeline/api db:reset",
+    "lint": "pnpm --recursive run lint",
+    "typecheck": "pnpm --recursive run typecheck",
+    "test": "pnpm --recursive run test",
+    "test:e2e": "pnpm --filter @forgeline/api test:e2e",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "assets:optimize": "echo 'Assets optimization script placeholder'"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.0",
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@12.6.0"
+}

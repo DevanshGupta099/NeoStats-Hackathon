@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --void: #060709;
+    --basalt: #0E1013;
+    --graphite: #171A1F;
+    --steel: #2A2F37;
+    --bone: #ECE8DF;
+    --ash: #9AA0A8;
+    --plasma: #B8FF2C;
+    --ember: #FF5A1F;
+    --ice: #5CE1E6;
+    --amber: #FFB020;
+    --crimson: #FF2E4D;
+  }
+
+  body {
+    background-color: var(--void);
+    color: var(--bone);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+}
