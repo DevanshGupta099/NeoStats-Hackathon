@@ -23,8 +23,9 @@ export class CsrfOriginGuard implements CanActivate {
       return true;
     }
 
-    const allowedOrigin = this.configService.get<string>('WEB_ORIGIN', 'http://localhost:3000');
-    const port = this.configService.get<string>('API_PORT', '4000');
+    const rawAllowedOrigin = this.configService.get<string>('WEB_ORIGIN', 'http://localhost:3000');
+    const allowedOrigin = rawAllowedOrigin.replace(/\/+$/, '');
+    const port = this.configService.get<string>('PORT') || this.configService.get<string>('API_PORT', '4000');
     const allowedOrigins = [
       allowedOrigin,
       `http://localhost:${port}`,
@@ -37,11 +38,19 @@ export class CsrfOriginGuard implements CanActivate {
 
     const incoming = origin || (referer ? new URL(referer).origin : null);
 
-    if (incoming && !allowedOrigins.includes(incoming)) {
-      throw new ForbiddenException({
-        code: 'CSRF_ORIGIN_MISMATCH',
-        message: `Origin ${incoming} is not permitted for state-changing operations`,
-      });
+    if (incoming) {
+      const normalizedIncoming = incoming.replace(/\/+$/, '');
+      const isAllowed =
+        allowedOrigins.includes(normalizedIncoming) ||
+        normalizedIncoming.endsWith('.vercel.app') ||
+        normalizedIncoming.endsWith('.onrender.com');
+
+      if (!isAllowed) {
+        throw new ForbiddenException({
+          code: 'CSRF_ORIGIN_MISMATCH',
+          message: `Origin ${incoming} is not permitted for state-changing operations`,
+        });
+      }
     }
 
     return true;

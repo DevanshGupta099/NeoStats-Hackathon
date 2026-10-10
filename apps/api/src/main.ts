@@ -8,8 +8,9 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
-  const webOrigin = process.env.WEB_ORIGIN || 'http://localhost:3000';
-  const port = process.env.API_PORT || 4000;
+  const rawWebOrigin = process.env.WEB_ORIGIN || 'http://localhost:3000';
+  const webOrigin = rawWebOrigin.replace(/\/+$/, '');
+  const port = process.env.PORT || process.env.API_PORT || 4000;
 
   // Structured logger
   app.useLogger(app.get(Logger));
@@ -42,13 +43,28 @@ async function bootstrap() {
 
   // Cross-port CORS
   app.enableCors({
-    origin: [
-      webOrigin,
-      'http://localhost:4000',
-      'http://127.0.0.1:4000',
-      'http://localhost:3000',
-      'http://127.0.0.1:3000',
-    ],
+    origin: (
+      incomingOrigin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
+      if (!incomingOrigin) return callback(null, true);
+      const normalized = incomingOrigin.replace(/\/+$/, '');
+      const allowedOrigins = [
+        webOrigin,
+        'http://localhost:4000',
+        'http://127.0.0.1:4000',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+      ];
+      if (
+        allowedOrigins.includes(normalized) ||
+        normalized.endsWith('.vercel.app') ||
+        normalized.endsWith('.onrender.com')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
