@@ -23,3 +23,7 @@ In accordance with the NeoStats Hackathon evaluation criteria, every architectur
 
 ## 3. Interview Readiness
 The owner has complete familiarity with all architectural patterns, database schemas, and guard logic in this codebase. Comprehensive module explanations are detailed in `docs/EXPLAINED/*.md` for in-depth review.
+
+## 4. Block B: Realtime & Socket.IO (Phase 3)
+- **Human Specification**: Strict cookie handshake auth, room isolation (`project:{id}`, `user:{id}`), policy-checked join, in-memory TTL presence, forced disconnect on deactivation.
+- **AI Generation**: `RealtimeGateway`, `PresenceService`, `@forgeline/shared` realtime event map, and Jest E2E multi-client realtime test suite.

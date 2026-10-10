@@ -27,6 +27,14 @@ export const RealtimeEvents = {
 
 export type RealtimeEventType = (typeof RealtimeEvents)[keyof typeof RealtimeEvents];
 
+export const ClientRealtimeEvents = {
+  PROJECT_JOIN: 'project.join',
+  PROJECT_LEAVE: 'project.leave',
+  PRESENCE_HEARTBEAT: 'presence.heartbeat',
+} as const;
+
+export type ClientRealtimeEventType = (typeof ClientRealtimeEvents)[keyof typeof ClientRealtimeEvents];
+
 export interface RealtimeEnvelope<T = unknown> {
   event: RealtimeEventType;
   projectId?: string;
@@ -35,4 +43,43 @@ export interface RealtimeEnvelope<T = unknown> {
   version?: number;
   timestamp: string;
   data: T;
+}
+
+export interface PresenceUser {
+  userId: string;
+  name: string;
+  handle: string;
+  role: string;
+  lastSeen: string;
+}
+
+export interface PresenceUpdatePayload {
+  projectId: string;
+  activeUsers: PresenceUser[];
+}
+
+export interface TaskMutationPayload {
+  id: string;
+  projectId: string;
+  number?: number;
+  title?: string;
+  status?: string;
+  version: number;
+  assigneeId?: string | null;
+  [key: string]: unknown;
+}
+
+export interface MemberMutationPayload {
+  projectId: string;
+  userId: string;
+  projectRole?: string;
+}
+
+export interface NotificationPayload {
+  id: string;
+  userId: string;
+  type: string;
+  payload: Record<string, unknown>;
+  readAt: string | null;
+  createdAt: string;
 }

@@ -15,6 +15,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { ActivityModule } from './modules/activity/activity.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { RealtimeModule } from './modules/realtime/realtime.module';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import { GlobalHttpExceptionFilter } from './common/filters/http-exception.filter';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
@@ -58,6 +59,7 @@ import { PolicyGuard } from './common/policy/policy.guard';
     CommentsModule,
     ActivityModule,
     NotificationsModule,
+    RealtimeModule,
   ],
   controllers: [HealthController],
   providers: [
