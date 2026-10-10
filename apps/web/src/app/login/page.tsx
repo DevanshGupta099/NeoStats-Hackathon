@@ -9,10 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { Shield, KeyRound, AlertTriangle, ArrowRight, Loader2 } from 'lucide-react';
 
 const DEMO_ACCOUNTS = [
-  { role: 'ADMIN', email: 'admin@forgeline.dev', label: 'Admin', variant: 'ember' as const },
-  { role: 'PROJECT_MANAGER', email: 'pm@forgeline.dev', label: 'Manager', variant: 'plasma' as const },
-  { role: 'TEAM_MEMBER', email: 'member@forgeline.dev', label: 'Member', variant: 'ice' as const },
-  { role: 'VIEWER', email: 'viewer@forgeline.dev', label: 'Viewer', variant: 'steel' as const },
+  { role: 'ADMIN', roleBadge: 'ADMIN', email: 'admin@forgeline.dev', label: 'Admin', variant: 'ember' as const },
+  { role: 'PROJECT_MANAGER', roleBadge: 'PM', email: 'pm@forgeline.dev', label: 'Project Manager', variant: 'plasma' as const },
+  { role: 'TEAM_MEMBER', roleBadge: 'MEMBER', email: 'member@forgeline.dev', label: 'Team Member', variant: 'ice' as const },
+  { role: 'VIEWER', roleBadge: 'VIEWER', email: 'viewer@forgeline.dev', label: 'Viewer', variant: 'steel' as const },
 ];
 
 export default function LoginPage() {
@@ -168,28 +168,38 @@ export default function LoginPage() {
                     key={acc.email}
                     type="button"
                     onClick={() => handleQuickFill(acc.email)}
-                    className={`flex items-center justify-between p-3 rounded-lg border text-left group cursor-pointer transition-all ${
+                    className={`p-3 rounded-lg border text-left group cursor-pointer transition-all flex flex-col justify-between ${
                       isSelected
                         ? 'bg-plasma/10 border-plasma text-bone shadow-[0_0_12px_rgba(184,255,44,0.15)]'
                         : 'bg-void/70 border-steel/80 hover:border-plasma/60 hover:bg-void text-bone'
                     }`}
                   >
-                    <div className="min-w-0 pr-2">
-                      <div className="flex items-center space-x-1.5">
-                        <span className="font-hud text-xs font-bold uppercase tracking-wider text-bone group-hover:text-plasma transition-colors">
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <div className="flex items-center space-x-1.5 min-w-0">
+                        <span className="font-hud text-xs font-bold uppercase tracking-wider text-bone group-hover:text-plasma transition-colors truncate">
                           {acc.label}
                         </span>
                         {isSelected && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-plasma" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-plasma shrink-0" />
                         )}
                       </div>
-                      <span className="block font-mono text-[10px] text-ash truncate mt-0.5">
-                        {acc.email}
+                      <span
+                        className={`font-mono text-[9px] font-bold px-1.5 py-0.5 rounded border shrink-0 uppercase tracking-wider ${
+                          acc.variant === 'plasma'
+                            ? 'bg-plasma/15 text-plasma border-plasma/40'
+                            : acc.variant === 'ember'
+                            ? 'bg-ember/15 text-ember border-ember/40'
+                            : acc.variant === 'ice'
+                            ? 'bg-ice/15 text-ice border-ice/40'
+                            : 'bg-steel/30 text-bone border-steel'
+                        }`}
+                      >
+                        {acc.roleBadge}
                       </span>
                     </div>
-                    <Badge variant={acc.variant} className="shrink-0 text-[10px] px-2 py-0.5 font-mono">
-                      {acc.role.replace('_', ' ')}
-                    </Badge>
+                    <span className="font-mono text-[10px] text-ash/80 truncate w-full block">
+                      {acc.email}
+                    </span>
                   </button>
                 );
               })}
