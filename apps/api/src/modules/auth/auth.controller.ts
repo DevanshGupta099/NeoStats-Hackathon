@@ -61,6 +61,7 @@ export class AuthController {
 
     return {
       user: result.user,
+      accessToken: result.accessToken,
       message: 'Logged in successfully',
     };
   }
@@ -86,6 +87,7 @@ export class AuthController {
 
     return {
       user: result.user,
+      accessToken: result.accessToken,
       message: 'Token rotated successfully',
     };
   }

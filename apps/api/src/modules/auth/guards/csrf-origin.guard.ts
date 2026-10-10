@@ -24,9 +24,20 @@ export class CsrfOriginGuard implements CanActivate {
     }
 
     const allowedOrigin = this.configService.get<string>('WEB_ORIGIN', 'http://localhost:3000');
+    const port = this.configService.get<string>('API_PORT', '4000');
+    const allowedOrigins = [
+      allowedOrigin,
+      `http://localhost:${port}`,
+      `http://127.0.0.1:${port}`,
+      'http://localhost:4000',
+      'http://127.0.0.1:4000',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+    ];
+
     const incoming = origin || (referer ? new URL(referer).origin : null);
 
-    if (incoming && incoming !== allowedOrigin) {
+    if (incoming && !allowedOrigins.includes(incoming)) {
       throw new ForbiddenException({
         code: 'CSRF_ORIGIN_MISMATCH',
         message: `Origin ${incoming} is not permitted for state-changing operations`,

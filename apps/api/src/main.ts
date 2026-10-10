@@ -14,18 +14,26 @@ async function bootstrap() {
   // Structured logger
   app.useLogger(app.get(Logger));
 
-  // Security headers
-  app.use(helmet());
+  // Security headers (disable CSP so Swagger UI interactive bundle can execute)
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
 
   // Global prefix
   app.setGlobalPrefix('api/v1');
 
-  // Handle bare root GET / with redirect to /api/v1
+  // Handle bare root GET / with redirect to /api/v1 and /docs redirect to /api/docs
   const httpAdapter = app.getHttpAdapter();
   if (httpAdapter && typeof (httpAdapter as any).getInstance === 'function') {
     const expressApp = (httpAdapter as any).getInstance();
     expressApp.get('/', (_req: any, res: any) => {
       res.redirect('/api/v1');
+    });
+    expressApp.get(['/docs', '/swagger', '/api-docs'], (_req: any, res: any) => {
+      res.redirect('/api/docs');
     });
   }
 
@@ -34,11 +42,24 @@ async function bootstrap() {
 
   // Cross-port CORS
   app.enableCors({
-    origin: webOrigin,
+    origin: [
+      webOrigin,
+      'http://localhost:4000',
+      'http://127.0.0.1:4000',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'If-Match', 'Idempotency-Key', 'x-request-id'],
-    exposedHeaders: ['x-request-id'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'If-Match',
+      'Idempotency-Key',
+      'x-request-id',
+      'Cookie',
+    ],
+    exposedHeaders: ['x-request-id', 'Set-Cookie'],
   });
 
   // Enable graceful shutdown hooks for Prisma
@@ -50,7 +71,7 @@ async function bootstrap() {
     .setDescription(
       'Multi-user collaborative project management engine for NeoStats Hackathon. Implements server-side authorization and optimistic concurrency control.',
     )
-    .setVersion('0.1.0')
+    .setVersion('1.0.0')
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'bearer-jwt')
     .addCookieAuth('access_token', { type: 'apiKey', in: 'cookie', name: 'access_token' })
     .build();
@@ -58,6 +79,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document, {
     customSiteTitle: 'Forgeline API Documentation',
+    swaggerOptions: {
+      persistAuthorization: true,
+      withCredentials: true,
+      tryItOutEnabled: true,
+      displayRequestDuration: true,
+    },
   });
 
   await app.listen(port);
