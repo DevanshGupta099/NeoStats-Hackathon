@@ -28,3 +28,10 @@ This document tracks key architectural decisions, rationale, and consequences fo
 - **Context:** Emitting WebSocket events before a transaction commits can leak uncommitted state if rollback occurs.
 - **Decision:** Use an in-process domain event bus that only broadcasts Socket.IO events after the database transaction successfully commits.
 - **Consequences:** Zero phantom events; client caches remain consistent with database truth.
+
+## ADR-005: Strict Dependency Declarations and Monorepo Zod Resolution
+- **Status:** Accepted
+- **Context:** pnpm enforces strict non-hoisted symlinks. When `@forgeline/shared` exports Zod schemas/types, consumer packages (`apps/api`, `apps/web`) and root TypeScript Language Server require explicit dependencies and topological builds.
+- **Decision:** Pin `zod: "3.24.2"` across all packages, declare `zod` in `apps/api`, `apps/web`, and `packages/shared`, define root `tsconfig.json` with path mapping, and build `@forgeline/shared` in `postinstall`.
+- **Consequences:** Eliminates editor and runtime module resolution issues; ensures deterministic clean builds.
+

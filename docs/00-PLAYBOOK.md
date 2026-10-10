@@ -143,6 +143,7 @@ Max 25 lines. No code dumps. No repetition of the plan.
 - Canvas jank on phone: lower DPR, disable postprocessing, cut particles, check `PerformanceMonitor` tier.
 - Prisma conflict updates: use `updateMany`/raw SQL with version predicate and check affected count.
 - Docker port clash: change host port in compose and `.env`.
+- Cannot find module 'zod' or workspace packages: pnpm does not hoist dependencies. Ensure every package importing zod declares it in its own `package.json` dependencies (pinned version). Ensure `@forgeline/shared` exports map points to `dist/index.d.ts` and root `postinstall` runs `pnpm --filter @forgeline/shared build`.
 
 ## 13. Demo script skeleton (finalise in `docs/DEMO_SCRIPT.md`)
 
