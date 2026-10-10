@@ -65,10 +65,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, isLoading, pathname, router]);
 
   const login = async (email: string, password: string): Promise<UserProfile> => {
-    const res = await apiClient.post<{ user: UserProfile; message: string }>('/auth/login', {
+    const res = await apiClient.post<{ user: UserProfile; accessToken?: string; message: string }>('/auth/login', {
       email,
       password,
     });
+    if (res.accessToken && typeof window !== 'undefined') {
+      localStorage.setItem('forgeline_token', res.accessToken);
+    }
     setUser(res.user);
     router.push('/dashboard');
     return res.user;
@@ -78,6 +81,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await apiClient.post('/auth/logout');
     } finally {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('forgeline_token');
+      }
       setUser(null);
       router.push('/login');
     }

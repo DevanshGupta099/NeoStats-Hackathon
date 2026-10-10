@@ -26,7 +26,7 @@ import { Subscription } from 'rxjs';
 
 @WebSocketGateway({
   cors: {
-    origin: process.env.WEB_ORIGIN || 'http://localhost:3000',
+    origin: true,
     credentials: true,
   },
   namespace: '/',
@@ -257,13 +257,18 @@ export class RealtimeGateway
       return client.handshake.auth.token;
     }
 
-    // 2. From Authorization header
+    // 2. From query parameter
+    if (client.handshake.query?.token && typeof client.handshake.query.token === 'string') {
+      return client.handshake.query.token;
+    }
+
+    // 3. From Authorization header
     const authHeader = client.handshake.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
       return authHeader.substring(7).trim();
     }
 
-    // 3. From Cookie header
+    // 4. From Cookie header
     const cookieHeader = client.handshake.headers.cookie;
     if (cookieHeader) {
       const match = cookieHeader.match(/(?:^|;\s*)access_token=([^;]+)/);

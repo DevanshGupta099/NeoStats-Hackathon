@@ -67,7 +67,8 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const socket = connectSocket();
+    const token = typeof window !== 'undefined' ? localStorage.getItem('forgeline_token') : null;
+    const socket = connectSocket(token);
 
     const onConnect = () => {
       setStatus('live');
