@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { Canvas } from '@react-three/fiber';
 import { View, Preload } from '@react-three/drei';
 import { HeatField } from './heat-field';
@@ -9,8 +10,12 @@ import { useQualityStore } from '@/lib/stores/quality-store';
 
 export function GlobalCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
   const dpr = useQualityStore((s) => s.dpr);
   const initializeQuality = useQualityStore((s) => s.initializeQuality);
+
+  const isHeroPage = pathname === '/' || pathname === '/login';
+  const effectiveDpr = isHeroPage ? dpr : 1;
 
   useEffect(() => {
     initializeQuality();
@@ -23,7 +28,7 @@ export function GlobalCanvas() {
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
     >
       <Canvas
-        dpr={dpr}
+        dpr={effectiveDpr}
         gl={{
           antialias: false,
           powerPreference: 'high-performance',

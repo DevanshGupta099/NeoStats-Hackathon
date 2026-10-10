@@ -27,6 +27,8 @@ interface CreateTaskSheetProps {
   members: ProjectMember[];
 }
 
+import { z } from 'zod';
+
 interface CreateTaskFormValues {
   title: string;
   description?: string;
@@ -36,6 +38,16 @@ interface CreateTaskFormValues {
   dueDate?: string | null;
   position?: number;
 }
+
+const FormTaskSchema = z.object({
+  title: z.string().min(2, 'Title must be at least 2 characters').max(150),
+  description: z.string().max(2000).optional(),
+  status: z.nativeEnum(TaskStatus).default(TaskStatus.BACKLOG),
+  priority: z.nativeEnum(TaskPriority).default(TaskPriority.MEDIUM),
+  assigneeId: z.preprocess((val) => (val === '' ? null : val), z.string().uuid().nullable().optional()),
+  dueDate: z.preprocess((val) => (val === '' ? null : val), z.string().nullable().optional()),
+  position: z.number().default(1000),
+});
 
 export function CreateTaskSheet({
   projectId,
@@ -55,14 +67,14 @@ export function CreateTaskSheet({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateTaskFormValues>({
-    resolver: zodResolver(CreateTaskSchema) as any,
+    resolver: zodResolver(FormTaskSchema) as any,
     defaultValues: {
       title: '',
       description: '',
       status: TaskStatus.BACKLOG,
       priority: TaskPriority.MEDIUM,
-      assigneeId: null,
-      dueDate: null,
+      assigneeId: '',
+      dueDate: '',
       position: 1000,
     },
   });

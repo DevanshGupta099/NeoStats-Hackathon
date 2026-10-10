@@ -1,14 +1,18 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { useQualityStore } from '@/lib/stores/quality-store';
 
 export function PostprocessingEffects() {
+  const pathname = usePathname();
   const postprocessing = useQualityStore((s) => s.postprocessing);
 
-  if (!postprocessing) {
+  const isHeroPage = pathname === '/' || pathname === '/login';
+
+  if (!postprocessing || !isHeroPage) {
     return null;
   }
 

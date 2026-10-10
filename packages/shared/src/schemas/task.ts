@@ -6,8 +6,8 @@ export const CreateTaskSchema = z.object({
   description: z.string().max(2000).optional(),
   status: z.nativeEnum(TaskStatus).default(TaskStatus.BACKLOG),
   priority: z.nativeEnum(TaskPriority).default(TaskPriority.MEDIUM),
-  assigneeId: z.string().uuid().nullable().optional(),
-  dueDate: z.string().datetime().nullable().optional(),
+  assigneeId: z.preprocess((val) => (val === '' ? null : val), z.string().uuid().nullable().optional()),
+  dueDate: z.preprocess((val) => (val === '' ? null : val), z.string().datetime().nullable().optional()),
   position: z.number().default(1000),
 });
 

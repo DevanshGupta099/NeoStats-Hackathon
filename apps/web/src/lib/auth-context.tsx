@@ -56,10 +56,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isLoading) return;
 
     const isPublic = pathname === '/' || PUBLIC_ROUTES.some((route) => route !== '/' && pathname.startsWith(route));
+    const isAdminRoute = pathname.startsWith('/users');
 
     if (!user && !isPublic) {
       router.replace('/login');
     } else if (user && pathname === '/login') {
+      router.replace('/dashboard');
+    } else if (user && isAdminRoute && user.globalRole !== 'ADMIN') {
       router.replace('/dashboard');
     }
   }, [user, isLoading, pathname, router]);

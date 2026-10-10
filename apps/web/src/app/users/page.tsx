@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
@@ -47,7 +48,8 @@ interface UserRecord {
 }
 
 export default function UsersAdminPage() {
-  const { user: currentUser } = useAuth();
+  const router = useRouter();
+  const { user: currentUser, isLoading: authLoading } = useAuth();
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState('');
@@ -55,6 +57,12 @@ export default function UsersAdminPage() {
   const [editingUser, setEditingUser] = useState<UserRecord | null>(null);
 
   const isAdmin = currentUser?.globalRole === 'ADMIN';
+
+  useEffect(() => {
+    if (!authLoading && currentUser && !isAdmin) {
+      router.replace('/dashboard');
+    }
+  }, [authLoading, currentUser, isAdmin, router]);
 
   // 1. Fetch Users List
   const { data, isLoading } = useQuery({
@@ -139,8 +147,10 @@ interface CreateUserFormValues {
     try {
       await createUser.mutateAsync(formData);
       resetCreate();
-    } catch {
-      // Toast handles error
+    } catch (err: any) {
+      toast.error('COMMISSION FAILED', {
+        description: err?.message || 'Failed to create user account.',
+      });
     }
   };
 
@@ -361,7 +371,7 @@ interface CreateUserFormValues {
 
       {/* Create User Dialog */}
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>CREATE NEW USER</DialogTitle>
             <DialogDescription>

@@ -14,10 +14,10 @@ interface QualityState {
 }
 
 export const useQualityStore = create<QualityState>((set) => ({
-  tier: 'HIGH',
+  tier: 'LOW',
   fps: 60,
-  dpr: 1.5,
-  postprocessing: true,
+  dpr: 1,
+  postprocessing: false,
   initialized: false,
 
   setTier: (tier: QualityTier) =>

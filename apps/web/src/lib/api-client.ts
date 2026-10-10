@@ -32,7 +32,18 @@ async function attemptTokenRefresh(): Promise<boolean> {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       });
-      return res.ok;
+      if (res.ok) {
+        try {
+          const data = await res.json();
+          if (data?.accessToken && typeof window !== 'undefined') {
+            localStorage.setItem('forgeline_token', data.accessToken);
+          }
+        } catch {
+          // Response body was not JSON
+        }
+        return true;
+      }
+      return false;
     } catch {
       return false;
     } finally {

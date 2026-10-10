@@ -5,13 +5,29 @@ import { usePathname } from 'next/navigation';
 import { TopNav } from './top-nav';
 import { NavRail } from './nav-rail';
 import { motion, AnimatePresence } from 'motion/react';
+import { useAuth } from '@/lib/auth-context';
+import { Loader2 } from 'lucide-react';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { isLoading } = useAuth();
   const isPublicPage = pathname === '/' || pathname === '/login';
 
   if (isPublicPage) {
     return <main className="relative z-10 w-full min-h-screen">{children}</main>;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="relative z-10 min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-3">
+          <Loader2 className="w-8 h-8 animate-spin text-plasma" />
+          <span className="font-mono text-xs text-ash uppercase tracking-widest">
+            AUTHENTICATING SESSION...
+          </span>
+        </div>
+      </div>
+    );
   }
 
   return (
