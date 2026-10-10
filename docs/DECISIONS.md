@@ -41,3 +41,8 @@ This document tracks key architectural decisions, rationale, and consequences fo
 ## ADR-007: Atomic Concurrency and Transactional Activity/Notification Writes
 - **Status:** Accepted
 - **Decision:** Every entity mutation executes atomic `version = version + 1 WHERE id AND version`, activity logging, and notification generation in one Prisma transaction, publishing post-commit domain events via `DomainEventBus`.
+
+## ADR-008: Real-Time Cache Patching, Presence Avatars & Concurrency Conflict Sheet
+- **Status:** Accepted
+- **Decision:** Socket.IO events patch TanStack Query cache in-place with version checks to ignore stale events. HTTP 409 responses open a side-by-side ConflictResolutionSheet with field-level "Keep theirs / Apply mine" diffing and bump resubmissions.
+

@@ -13,6 +13,7 @@ import {
 } from '@/lib/queries/use-comments';
 import { useProjectMembers } from '@/lib/queries/use-projects';
 import { usePermissions } from '@/lib/permissions-hook';
+import { useRecentEventsStore } from '@/lib/stores/recent-events-store';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { HeatSkeleton } from '@/components/ui/heat-skeleton';
@@ -116,6 +117,8 @@ export function TaskDetailContent({
     }
   };
 
+  const isRecentlyModified = useRecentEventsStore((s) => s.isRecentlyModified(taskId));
+
   if (taskLoading) {
     return (
       <div className="p-6 space-y-4">
@@ -136,6 +139,17 @@ export function TaskDetailContent({
 
   return (
     <div className="space-y-6">
+      {/* Live Remote Update Alert Banner */}
+      {isRecentlyModified && (
+        <div className="p-3 bg-plasma/10 border border-plasma rounded flex items-center justify-between text-xs font-mono text-plasma animate-pulse">
+          <div className="flex items-center space-x-2">
+            <Flame className="w-4 h-4 text-plasma" />
+            <span>RECORD UPDATED REMOTELY BY COLLABORATOR (v{task.version})</span>
+          </div>
+          <span className="text-[10px] text-ash">LATEST REVISION ACTIVE</span>
+        </div>
+      )}
+
       {/* 1. Header with Task Number, Version Badge, and Status */}
       <div className="border-b border-steel/60 pb-4">
         <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">

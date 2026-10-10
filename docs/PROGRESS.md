@@ -11,22 +11,21 @@ Current phase: Fast-Track Block C (Done) -> Block D (Next)
 | 4 | todo | phase/4-backend-hardening | Rate limits, security headers, query indexing, e2e test matrix |
 | 5 | done | phase/5-design-system | R3F persistent canvas, View portals, ForgeText, design tokens, HeroForge login (Block C) |
 | 6 | done | feat/pages-core / Block D | Dashboard StatTotems, ProjectTile3D, dnd-kit touch Kanban, task detail & @mentions |
-| 7 | todo | phase/7-board-tasks-live / v0.3 | Real-time live cache patching, conflict resolution drawer |
+| 7 | done | feat/live / v0.3 | Real-time live cache patching, presence avatars, conflict resolution drawer, notifications, activity & users |
 | 8 | todo | phase/8-ai-features | Mistral digest and smart task draft (feature-flagged) |
 | 9 | todo | phase/9-polish-performance | Lighthouse mobile pass, a11y, asset optimization |
 | 10 | todo | phase/10-submission / v1.0 | README final, demo script, architecture & explainer documentation |
 
 ### Recent decisions:
-- Completed Fast-Track Block D: Connected TanStack Query key factory and typed hooks across all backend APIs.
-- Built /dashboard with WebGL StatTotems 3D instanced array and in-progress heat modulation of HeatField.
-- Built /projects directory with ProjectTile3D pointer/gyro tilt slabs, search & status filters, and Admin sheet.
-- Implemented /projects/[id] & /tasks with dnd-kit touch-safe snap-scroll Kanban board and Vaul filter drawer.
-- Built /tasks/[id] detail pane with version badges, live comments thread, and @mention autocomplete composer.
+- Completed Fast-Track Block E: Built singleton Socket.IO provider with auto-reconnection, room scoping, and presence tracking.
+- Implemented real-time TanStack Query cache patching with version staleness checks, ice-trace flourishes, and mobile haptics.
+- Built ConflictResolutionSheet on HTTP 409 VERSION_CONFLICT with per-field Keep theirs vs Apply mine resolution.
+- Shipped Notifications stream (/alerts), Activity timeline (/activity), Team roster controls, /users table, and /profile settings.
 
 ### Known issues:
 - None.
 
 ### Next 3 actions:
-1. Wire live Socket.IO cache invalidation & patch listeners to TanStack Query (Block E / Phase 7).
-2. Build optimistic conflict resolution drawer on HTTP 409 version mismatch.
-3. Integrate Mistral AI standup digest and smart task drafting.
+1. Integrate Mistral AI standup digest and smart task drafting (Block F / Phase 8).
+2. Run Lighthouse mobile performance audit and accessibility verification (Phase 9).
+3. Finalize README, submission script, and viva explainer architecture guides (Phase 10 / v1.0).

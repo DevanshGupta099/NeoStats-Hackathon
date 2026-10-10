@@ -20,6 +20,7 @@ import { CreateTaskSheet } from '@/components/tasks/create-task-sheet';
 import { TaskDetailContent } from '@/components/tasks/task-detail-content';
 import { ProjectTeamTab } from '@/components/projects/project-team-tab';
 import { ProjectActivityTab } from '@/components/projects/project-activity-tab';
+import { PresenceAvatars } from '@/components/tasks/presence-avatars';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HeatSkeleton } from '@/components/ui/heat-skeleton';
@@ -190,6 +191,9 @@ export default function ProjectWorkspacePage() {
         {/* Task Tab Specific Controls: View Toggle, Filters Drawer, New Task */}
         {activeTab === 'tasks' && (
           <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+            {/* Live Presence Collaborators */}
+            <PresenceAvatars />
+
             {/* Board / List View Toggle */}
             <div className="flex items-center bg-void p-1 rounded border border-steel">
               <button
@@ -264,7 +268,9 @@ export default function ProjectWorkspacePage() {
         </div>
       )}
 
-      {activeTab === 'team' && <ProjectTeamTab members={members} />}
+      {activeTab === 'team' && (
+        <ProjectTeamTab projectId={projectId} members={members} />
+      )}
 
       {activeTab === 'activity' && <ProjectActivityTab projectId={projectId} />}
 

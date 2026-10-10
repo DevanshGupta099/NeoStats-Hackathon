@@ -31,3 +31,8 @@ The owner has complete familiarity with all architectural patterns, database sch
 ## 5. Block D: Core Pages & Data Hooks (Phase 6)
 - **Human Specification**: Mobile-first TanStack Query architecture, 3D WebGL StatTotems & ProjectTile3D slabs, touch-safe snap-scroll Kanban board, and @mention autocomplete comment threads.
 - **AI Generation**: Query key factory, typed data hooks, responsive UI components, dnd-kit sensors, and Vaul filter drawer.
+
+## 6. Block E: Realtime Frontend & Concurrency Resolution (Phase 7)
+- **Human Specification**: Realtime query cache patching, version checking, ice-colour remote highlights, presence avatars, 409 conflict resolution sheet, alerts/notifications, team roster, users table, and profile settings.
+- **AI Generation**: SocketProvider context, conflict modal store, TanStack Table users page, activity timeline with entity filters, and ambient presence badges.
+
