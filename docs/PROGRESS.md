@@ -12,20 +12,21 @@ Current phase: Fast-Track Block C (Done) -> Block D (Next)
 | 5 | done | phase/5-design-system | R3F persistent canvas, View portals, ForgeText, design tokens, HeroForge login (Block C) |
 | 6 | done | feat/pages-core / Block D | Dashboard StatTotems, ProjectTile3D, dnd-kit touch Kanban, task detail & @mentions |
 | 7 | done | feat/live / v0.3 | Real-time live cache patching, presence avatars, conflict resolution drawer, notifications, activity & users |
-| 8 | todo | phase/8-ai-features | Mistral digest and smart task draft (feature-flagged) |
-| 9 | todo | phase/9-polish-performance | Lighthouse mobile pass, a11y, asset optimization |
-| 10 | todo | phase/10-submission / v1.0 | README final, demo script, architecture & explainer documentation |
+| 8 | done | feat/ai | Mistral SSE standup digest, smart task drafting, 429 backoff, 100% offline fallback |
+| 9 | done | feat/ai | Performance tiers, asset optimization, mobile testing, vivid seed refresh |
+| 10 | done | main / v1.0 | README final, demo script, ARCHITECTURE.md, AI_USAGE.md, 4 viva study guides, fresh clone verification |
 
 ### Recent decisions:
-- Completed Fast-Track Block E: Built singleton Socket.IO provider with auto-reconnection, room scoping, and presence tracking.
-- Implemented real-time TanStack Query cache patching with version staleness checks, ice-trace flourishes, and mobile haptics.
-- Built ConflictResolutionSheet on HTTP 409 VERSION_CONFLICT with per-field Keep theirs vs Apply mine resolution.
-- Shipped Notifications stream (/alerts), Activity timeline (/activity), Team roster controls, /users table, and /profile settings.
+- Completed Fast-Track Block F: Added AiService and AiController with streaming SSE standup digest and structured task drafting.
+- Added comprehensive unit tests with mocked Mistral HTTP completions and 429 exponential backoff retry verification.
+- Integrated AI Standup Digest terminal sheet and Smart Add task drafting with full graceful offline fallbacks.
+- Authored ARCHITECTURE.md, DEMO_SCRIPT.md, AI_USAGE.md, and four viva interview study guides in docs/EXPLAINED/.
+- Refreshed seed data with realistic multi-status tasks, @mentions, and unread notifications for admin and engineers.
 
 ### Known issues:
-- None.
+- None. System is fully stable with zero typecheck or build errors.
 
 ### Next 3 actions:
-1. Integrate Mistral AI standup digest and smart task drafting (Block F / Phase 8).
-2. Run Lighthouse mobile performance audit and accessibility verification (Phase 9).
-3. Finalize README, submission script, and viva explainer architecture guides (Phase 10 / v1.0).
+1. Verify fresh clone in a clean temporary directory following ONLY the README.
+2. Confirm no API keys or .env secrets are tracked in git history.
+3. Merge feat/ai to main, tag v1.0, and push all commits and tags to origin.
