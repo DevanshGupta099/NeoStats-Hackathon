@@ -14,6 +14,7 @@ In accordance with the NeoStats Hackathon evaluation criteria, every architectur
 |---|---|---|
 | **System Architecture** | pnpm monorepo, NestJS separate from Next.js, PostgreSQL 16 via Docker, Socket.IO over raw WS | Monorepo scaffolding, configuration files, package.json wiring |
 | **Data Model & Concurrency** | Version integer on tasks and projects; atomic SQL predicates; 409 conflict envelope shape | Prisma schema definition, SQL migration scripts, conflict handler pipe |
+| **Auth & Security (Phase 1)** | Argon2id hashing, httpOnly SameSite=Lax dual cookies, token family rotation with reuse revocation, token_version session severing, lockout-safe messages | AuthService implementation, JwtAuthGuard, CsrfOriginGuard, supertest e2e suite |
 | **Authorization Model** | Dual-tier role model (Global & Project); Rule of Cap; server-side PolicyService | PolicyService implementation, test matrix generation, NestJS guard creation |
 | **Real-Time Model** | Socket.IO room scoping (`user:{id}`, `project:{id}`), post-commit domain event bus | Gateway implementation, event typings, client-side cache patch listeners |
 | **Visual Direction** | "Operations Forge" brutalist HUD aesthetic, WebGL persistent canvas, design token palette | Three.js shader code, troika font preloading, Tailwind token mapping |

@@ -45,19 +45,21 @@ pnpm install
 # 2. Copy environment file
 cp .env.example .env
 
-# 3. Spin up PostgreSQL 16 containers (Dev on 5432, Test on 5433)
+# 3. Spin up PostgreSQL 16 containers (Dev on 5434, Test on 5433)
 pnpm db:up
 
-# 4. Build shared packages
-pnpm --filter @forgeline/shared build
+# 4. Apply database migrations and seed default data
+pnpm db:migrate
+pnpm db:seed
 
-# 5. Start API (:4000) and Web (:3000) simultaneously
+# 5. Build shared packages and run both dev servers
 pnpm dev
 ```
 
 * **Web Application:** [http://localhost:3000](http://localhost:3000)
 * **REST API:** [http://localhost:4000/api/v1](http://localhost:4000/api/v1)
-* **Health Check Probe:** [http://localhost:4000/api/v1/health/probe-cors](http://localhost:4000/api/v1/health/probe-cors)
+* **Swagger OpenAPI Docs:** [http://localhost:4000/api/docs](http://localhost:4000/api/docs)
+* **Health Check & DB Probe:** [http://localhost:4000/api/v1/health/db](http://localhost:4000/api/v1/health/db)
 
 ---
 
@@ -68,9 +70,12 @@ All accounts use the shared development password: `Forge@12345`
 | Email | Global Role | Purpose / Scope |
 |---|---|---|
 | `admin@forgeline.dev` | `ADMIN` | System administrator with global user, project, and audit access |
-| `pm@forgeline.dev` | `PROJECT_MANAGER` | Project manager with member assignment, task management rights |
-| `member@forgeline.dev` | `TEAM_MEMBER` | Team member (can only modify tasks assigned to them) |
-| `viewer@forgeline.dev` | `VIEWER` | Read-only observer across assigned projects |
+| `pm@forgeline.dev` | `PROJECT_MANAGER` | Lead Project Manager on Project Helios & Aegis |
+| `pm2@forgeline.dev` | `PROJECT_MANAGER` | Associate Project Manager on Project Aegis & Chronos |
+| `member@forgeline.dev` | `TEAM_MEMBER` | Senior Engineer (assigned to Helios & Aegis) |
+| `member2@forgeline.dev` | `TEAM_MEMBER` | Frontend Engineer (assigned to Helios & Chronos) |
+| `viewer@forgeline.dev` | `VIEWER` | Executive read-only observer |
+| `deactivated@forgeline.dev` | `TEAM_MEMBER` | Deactivated test account (login blocked) |
 
 ---
 
