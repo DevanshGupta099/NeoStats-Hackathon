@@ -61,9 +61,12 @@ const fragmentShader = `
   }
 `;
 
+import { useHeatStore } from '@/lib/stores/heat-store';
+
 export function HeatField() {
   const meshRef = useRef<THREE.Mesh>(null);
   const tier = useQualityStore((s) => s.tier);
+  const heatIntensity = useHeatStore((s) => s.intensity);
   const { viewport } = useThree();
 
   const uniforms = useMemo(
@@ -89,6 +92,14 @@ export function HeatField() {
     const mat = meshRef.current.material as THREE.ShaderMaterial;
     mat.uniforms.uTime.value += delta;
     mat.uniforms.uPointer.value.lerp(state.pointer, 0.05);
+
+    // Dynamic heat intensity modulation from tasks in progress
+    const baseMultiplier = tier === 'HIGH' ? 1.0 : 0.5;
+    mat.uniforms.uIntensity.value = THREE.MathUtils.lerp(
+      mat.uniforms.uIntensity.value,
+      heatIntensity * baseMultiplier,
+      0.05,
+    );
 
     if (typeof window !== 'undefined') {
       const currentScrollY = window.scrollY || 0;

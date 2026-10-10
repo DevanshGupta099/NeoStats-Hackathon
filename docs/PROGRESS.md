@@ -10,23 +10,23 @@ Current phase: Fast-Track Block C (Done) -> Block D (Next)
 | 3 | done | phase/3-realtime / v0.2 | Socket.IO gateway, rooms, post-commit domain events, presence (Block B) |
 | 4 | todo | phase/4-backend-hardening | Rate limits, security headers, query indexing, e2e test matrix |
 | 5 | done | phase/5-design-system | R3F persistent canvas, View portals, ForgeText, design tokens, HeroForge login (Block C) |
-| 6 | doing | phase/6-auth-core-pages | Login, dashboard, project overview, team, user administration (Block D) |
-| 7 | todo | phase/7-board-tasks-live / v0.3 | Kanban DnD, conflict UI, comments, live cache patching |
+| 6 | done | feat/pages-core / Block D | Dashboard StatTotems, ProjectTile3D, dnd-kit touch Kanban, task detail & @mentions |
+| 7 | todo | phase/7-board-tasks-live / v0.3 | Real-time live cache patching, conflict resolution drawer |
 | 8 | todo | phase/8-ai-features | Mistral digest and smart task draft (feature-flagged) |
 | 9 | todo | phase/9-polish-performance | Lighthouse mobile pass, a11y, asset optimization |
 | 10 | todo | phase/10-submission / v1.0 | README final, demo script, architecture & explainer documentation |
 
 ### Recent decisions:
-- Completed Fast-track Block C: local font pipeline (5 families), CSS variables and Three.js shader token bridge.
-- Built persistent root `<Canvas>` with drei `<View>` portals, eliminating multi-context WebGL leaks.
-- Implemented `<ForgeText>` with kinetic 3D typography and accessible DOM fallbacks.
-- Shipped full-bleed `HeroForge` login with ember particle simulation, parallax tilt, and DEMO role selector chips.
-- Quality tier store auto-selects LOW or HIGH based on GPU tier, mobile status, and prefers-reduced-motion.
+- Completed Fast-Track Block D: Connected TanStack Query key factory and typed hooks across all backend APIs.
+- Built /dashboard with WebGL StatTotems 3D instanced array and in-progress heat modulation of HeatField.
+- Built /projects directory with ProjectTile3D pointer/gyro tilt slabs, search & status filters, and Admin sheet.
+- Implemented /projects/[id] & /tasks with dnd-kit touch-safe snap-scroll Kanban board and Vaul filter drawer.
+- Built /tasks/[id] detail pane with version badges, live comments thread, and @mention autocomplete composer.
 
 ### Known issues:
 - None.
 
 ### Next 3 actions:
-1. Build Dashboard & Projects list with real API data binding (Block D).
-2. Wire Kanban board and task detail drawer with real-time updates.
-3. Integrate optimistic conflict resolution drawer on HTTP 409.
+1. Wire live Socket.IO cache invalidation & patch listeners to TanStack Query (Block E / Phase 7).
+2. Build optimistic conflict resolution drawer on HTTP 409 version mismatch.
+3. Integrate Mistral AI standup digest and smart task drafting.
