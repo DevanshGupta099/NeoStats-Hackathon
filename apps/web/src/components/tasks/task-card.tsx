@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { TaskPriority, TaskStatus } from '@forgeline/shared';
 import { Calendar, MessageSquare, GripVertical } from 'lucide-react';
 
+import { useRecentEventsStore } from '@/lib/stores/recent-events-store';
+
 export function TaskCard({
   task,
   onSelect,
@@ -18,6 +20,8 @@ export function TaskCard({
   onSelect?: (task: TaskItem) => void;
   isDragOverlay?: boolean;
 }) {
+  const isRecentlyModified = useRecentEventsStore((s) => s.isRecentlyModified(task.id));
+
   const {
     attributes,
     listeners,
@@ -48,6 +52,8 @@ export function TaskCard({
       className={`hud-panel p-3.5 bg-basalt border-steel rounded transition-all select-none ${
         isDragOverlay
           ? 'shadow-2xl border-plasma scale-105 z-50 ring-2 ring-plasma/50'
+          : isRecentlyModified
+          ? 'ring-2 ring-ice border-ice shadow-[0_0_16px_rgba(92,225,230,0.6)] animate-pulse'
           : 'hover:border-steel/80 active:border-plasma/60'
       }`}
     >

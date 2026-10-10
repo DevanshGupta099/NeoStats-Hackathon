@@ -3,17 +3,26 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, FolderGit2, Bell, User } from 'lucide-react';
-
-const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/projects', label: 'Projects', icon: FolderGit2 },
-  { href: '/alerts', label: 'Alerts', icon: Bell, badge: 3 },
-  { href: '/profile', label: 'Profile', icon: User },
-];
+import { LayoutDashboard, FolderGit2, Bell, User, Users, Activity } from 'lucide-react';
+import { useUnreadNotificationCount } from '@/lib/queries/use-notifications';
+import { useAuth } from '@/lib/auth-context';
 
 export function NavRail() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const { data: unreadData } = useUnreadNotificationCount();
+  const unreadCount = unreadData?.count || 0;
+
+  const navItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/projects', label: 'Projects', icon: FolderGit2 },
+    { href: '/alerts', label: 'Alerts', icon: Bell, badge: unreadCount > 0 ? unreadCount : undefined },
+    { href: '/activity', label: 'Activity', icon: Activity },
+    ...(user?.globalRole === 'ADMIN'
+      ? [{ href: '/users', label: 'Users', icon: Users }]
+      : []),
+    { href: '/profile', label: 'Profile', icon: User },
+  ];
 
   return (
     <>
@@ -27,7 +36,7 @@ export function NavRail() {
           </div>
 
           <nav className="space-y-1">
-            {NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname.startsWith(item.href);
 
@@ -46,7 +55,7 @@ export function NavRail() {
                     <span>{item.label}</span>
                   </div>
 
-                  {item.badge && (
+                  {item.badge !== undefined && (
                     <span className="px-1.5 py-0.2 bg-crimson/20 border border-crimson/50 text-crimson font-mono text-[10px] font-bold">
                       {item.badge}
                     </span>
@@ -71,7 +80,7 @@ export function NavRail() {
 
       {/* 2. Mobile Thumb-Zone Bottom Tab Bar (< lg screens) */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-basalt/95 backdrop-blur border-t border-steel z-40 px-2 flex items-center justify-around safe-area-bottom">
-        {NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname.startsWith(item.href);
 
@@ -88,7 +97,7 @@ export function NavRail() {
                 {item.label}
               </span>
 
-              {item.badge && (
+              {item.badge !== undefined && (
                 <span className="absolute top-1 right-3 w-2 h-2 bg-crimson rounded-full animate-pulse" />
               )}
             </Link>

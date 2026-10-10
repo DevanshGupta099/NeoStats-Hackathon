@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
 import { useQualityStore } from '@/lib/stores/quality-store';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, Wifi, Activity } from 'lucide-react';
+import { useSocket } from '@/lib/socket/socket-context';
+import { LogOut, Activity } from 'lucide-react';
 
 export function TopNav() {
   const { user, logout } = useAuth();
+  const { status: socketStatus } = useSocket();
   const tier = useQualityStore((s) => s.tier);
   const setTier = useQualityStore((s) => s.setTier);
 
@@ -32,11 +34,33 @@ export function TopNav() {
         {/* Realtime Connection Status Indicator */}
         <div className="flex items-center space-x-1.5 px-2 py-1 bg-void border border-steel/60">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ice opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-ice" />
+            {socketStatus === 'live' && (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ice opacity-75" />
+            )}
+            <span
+              className={`relative inline-flex rounded-full h-2 w-2 ${
+                socketStatus === 'live'
+                  ? 'bg-ice'
+                  : socketStatus === 'reconnecting'
+                  ? 'bg-amber animate-pulse'
+                  : 'bg-crimson'
+              }`}
+            />
           </span>
-          <span className="font-mono text-[10px] text-ice uppercase tracking-wider hidden sm:inline">
-            SYNC LIVE
+          <span
+            className={`font-mono text-[10px] uppercase tracking-wider hidden sm:inline ${
+              socketStatus === 'live'
+                ? 'text-ice'
+                : socketStatus === 'reconnecting'
+                ? 'text-amber'
+                : 'text-crimson'
+            }`}
+          >
+            {socketStatus === 'live'
+              ? 'SYNC LIVE'
+              : socketStatus === 'reconnecting'
+              ? 'RECONNECTING'
+              : 'OFFLINE'}
           </span>
         </div>
 
