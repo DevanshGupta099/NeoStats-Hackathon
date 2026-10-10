@@ -6,7 +6,7 @@
   "author": "Devansh Gupta",
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "pnpm --filter @forgeline/shared build",
+    "postinstall": "pnpm --filter @forgeline/shared build && pnpm --filter @forgeline/api prisma:generate",
     "dev": "concurrently -k -p \"[{name}]\" -n \"API,WEB\" -c \"yellow.bold,cyan.bold\" \"pnpm --filter @forgeline/api dev\" \"pnpm --filter @forgeline/web dev\"",
     "dev:web": "pnpm --filter @forgeline/web dev",
     "dev:api": "pnpm --filter @forgeline/api dev",
