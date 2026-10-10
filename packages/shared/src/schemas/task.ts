@@ -21,21 +21,21 @@ export const UpdateTaskSchema = z.object({
   assigneeId: z.string().uuid().nullable().optional(),
   dueDate: z.string().datetime().nullable().optional(),
   position: z.number().optional(),
-  version: z.number().int().positive('Version is strictly required for optimistic concurrency'),
+  version: z.number().int().positive('Version must be a positive integer').optional(),
 });
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>;
 
 export const ChangeTaskStatusSchema = z.object({
   status: z.nativeEnum(TaskStatus),
-  version: z.number().int().positive('Version is strictly required for optimistic concurrency'),
+  version: z.number().int().positive('Version must be a positive integer').optional(),
 });
 
 export type ChangeTaskStatusInput = z.infer<typeof ChangeTaskStatusSchema>;
 
 export const AssignTaskSchema = z.object({
   assigneeId: z.string().uuid().nullable(),
-  version: z.number().int().positive('Version is strictly required for optimistic concurrency'),
+  version: z.number().int().positive('Version must be a positive integer').optional(),
 });
 
 export type AssignTaskInput = z.infer<typeof AssignTaskSchema>;
@@ -43,7 +43,7 @@ export type AssignTaskInput = z.infer<typeof AssignTaskSchema>;
 export const MoveTaskSchema = z.object({
   status: z.nativeEnum(TaskStatus),
   position: z.number(),
-  version: z.number().int().positive('Version is strictly required for optimistic concurrency'),
+  version: z.number().int().positive('Version must be a positive integer').optional(),
 });
 
 export type MoveTaskInput = z.infer<typeof MoveTaskSchema>;

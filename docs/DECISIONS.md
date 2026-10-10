@@ -34,4 +34,10 @@ This document tracks key architectural decisions, rationale, and consequences fo
 - **Context:** pnpm enforces strict non-hoisted symlinks. When `@forgeline/shared` exports Zod schemas/types, consumer packages (`apps/api`, `apps/web`) and root TypeScript Language Server require explicit dependencies and topological builds.
 - **Decision:** Pin `zod: "3.24.2"` across all packages, declare `zod` in `apps/api`, `apps/web`, and `packages/shared`, define root `tsconfig.json` with path mapping, and build `@forgeline/shared` in `postinstall`.
 - **Consequences:** Eliminates editor and runtime module resolution issues; ensures deterministic clean builds.
+## ADR-006: Mistral AI Provider via Direct REST Fetch
+- **Status:** Accepted
+- **Decision:** Use Mistral free tier via raw `fetch` (`https://api.mistral.ai/v1/chat/completions`) using `Mistral_API_KEY` (fallback `MISTRAL_API_KEY`), removing external SDK overhead.
 
+## ADR-007: Atomic Concurrency and Transactional Activity/Notification Writes
+- **Status:** Accepted
+- **Decision:** Every entity mutation executes atomic `version = version + 1 WHERE id AND version`, activity logging, and notification generation in one Prisma transaction, publishing post-commit domain events via `DomainEventBus`.

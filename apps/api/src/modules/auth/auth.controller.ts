@@ -90,6 +90,7 @@ export class AuthController {
     };
   }
 
+  @Public()
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Logout and revoke refresh token' })

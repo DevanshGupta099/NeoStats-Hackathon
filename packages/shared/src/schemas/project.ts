@@ -13,7 +13,7 @@ export const UpdateProjectSchema = z.object({
   name: z.string().min(2).max(80).optional(),
   description: z.string().max(500).optional(),
   status: z.nativeEnum(ProjectStatus).optional(),
-  version: z.number().int().positive('Version is required for concurrency control'),
+  version: z.number().int().positive('Version must be a positive integer').optional(),
 });
 
 export type UpdateProjectInput = z.infer<typeof UpdateProjectSchema>;

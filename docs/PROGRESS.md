@@ -6,8 +6,8 @@ Current phase: Phase 1 — Backend Foundation (Done) -> Phase 2 (Next)
 |:---:|:---:|:---:|:---|
 | 0 | done | phase/0-bootstrap | Monorepo layout, Docker Postgres, shared package, docs skeleton, 16 skills, CI, CORS probe |
 | 1 | done | phase/1-backend-foundation | Prisma schema, citext, 8 models, seed (40 tasks), Argon2id auth, JWT rotation, 12 e2e tests |
-| 2 | doing | phase/2-authz-domain-apis / v0.1 | PolicyService, 409 optimistic locking, transactional activity, notifications |
-| 3 | todo | phase/3-realtime / v0.2 | Socket.IO gateway, rooms, post-commit domain events |
+| 2 | done | phase/2-domain-apis / v0.1 | PolicyService matrix, all domain CRUD APIs, 409 optimistic locking, transactional activity & notifications, 25 e2e tests |
+| 3 | doing | phase/3-realtime / v0.2 | Socket.IO gateway, rooms, post-commit domain events (Fast-track Block B) |
 | 4 | todo | phase/4-backend-hardening | Rate limits, security headers, query indexing, e2e test matrix |
 | 5 | todo | phase/5-design-system-3d | R3F persistent canvas, View portals, ForgeText, design tokens |
 | 6 | todo | phase/6-auth-core-pages | Login, dashboard, project overview, team, user administration |
