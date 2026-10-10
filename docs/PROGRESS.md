@@ -20,11 +20,12 @@ Current phase: Phase 0 — Bootstrap
 - Initialized pnpm monorepo with `apps/web`, `apps/api`, `packages/shared`.
 - Defined Docker Compose with dual Postgres containers: `postgres` (:5432) for dev and `postgres-test` (:5433) for isolated e2e tests.
 - Centralized common Zod validation schemas, enums, error codes, and permission matrices in `@forgeline/shared`.
+- Resolved monorepo Zod module resolution: pinned `3.24.2` across all packages, added root `tsconfig.json` path mapping, exported declaration maps, and added root `postinstall` script.
 
 ### Known issues:
-- None currently.
+- None.
 
 ### Next 3 actions:
-1. Complete `packages/shared` core enums, types, and schemas.
-2. Scaffold `apps/api` (NestJS) and `apps/web` (Next.js) with CORS and health endpoints.
-3. Verify local Docker Postgres startup and test hello-world web↔api connection.
+1. Define Prisma schema matching Section 6 data model specifications.
+2. Run Prisma migration on dev database (`pnpm db:migrate`).
+3. Build idempotent seed script with all 4 roles, 3 projects, and ~40 tasks.
