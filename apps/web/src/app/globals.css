@@ -210,3 +210,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-ash);
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

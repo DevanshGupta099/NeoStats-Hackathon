@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { QueryProvider } from '@/lib/providers/query-provider';
 import { AuthProvider } from '@/lib/auth-context';
 import { AppShell } from '@/components/layout/app-shell';
 import { GlobalCanvas } from '@/components/canvas/global-canvas';
@@ -20,13 +21,15 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="min-h-screen bg-void text-bone antialiased selection:bg-plasma selection:text-void font-body">
         <SmoothScroll>
-          <AuthProvider>
-            <div id="app-root" className="relative min-h-screen">
-              <GlobalCanvas />
-              <AppShell>{children}</AppShell>
-              <Toaster />
-            </div>
-          </AuthProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <div id="app-root" className="relative min-h-screen">
+                <GlobalCanvas />
+                <AppShell>{children}</AppShell>
+                <Toaster />
+              </div>
+            </AuthProvider>
+          </QueryProvider>
         </SmoothScroll>
       </body>
     </html>

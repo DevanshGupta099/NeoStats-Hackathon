@@ -27,3 +27,7 @@ The owner has complete familiarity with all architectural patterns, database sch
 ## 4. Block B: Realtime & Socket.IO (Phase 3)
 - **Human Specification**: Strict cookie handshake auth, room isolation (`project:{id}`, `user:{id}`), policy-checked join, in-memory TTL presence, forced disconnect on deactivation.
 - **AI Generation**: `RealtimeGateway`, `PresenceService`, `@forgeline/shared` realtime event map, and Jest E2E multi-client realtime test suite.
+
+## 5. Block D: Core Pages & Data Hooks (Phase 6)
+- **Human Specification**: Mobile-first TanStack Query architecture, 3D WebGL StatTotems & ProjectTile3D slabs, touch-safe snap-scroll Kanban board, and @mention autocomplete comment threads.
+- **AI Generation**: Query key factory, typed data hooks, responsive UI components, dnd-kit sensors, and Vaul filter drawer.

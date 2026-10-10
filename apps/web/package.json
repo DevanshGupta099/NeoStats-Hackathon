@@ -20,6 +20,7 @@
     "@fontsource/jetbrains-mono": "^5.3.0",
     "@fontsource/oxanium": "^5.3.0",
     "@forgeline/shared": "workspace:*",
+    "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-avatar": "^1.2.7",
     "@radix-ui/react-dialog": "^1.2.0",
     "@radix-ui/react-dropdown-menu": "^2.1.25",
