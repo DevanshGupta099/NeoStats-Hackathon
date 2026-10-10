@@ -58,20 +58,20 @@ export function CreateProjectDialog({ open, onOpenChange }: CreateProjectDialogP
         <DialogHeader>
           <div className="flex items-center space-x-2 text-plasma mb-1">
             <FolderPlus className="w-5 h-5" />
-            <span className="font-mono text-[10px] tracking-widest uppercase">
-              // WORKSPACE COMMISSION
+            <span className="font-mono text-[11px] tracking-wider uppercase font-semibold">
+              PROJECT MANAGEMENT
             </span>
           </div>
-          <DialogTitle>DEPLOY NEW PROJECT SECTOR</DialogTitle>
+          <DialogTitle>CREATE NEW PROJECT</DialogTitle>
           <DialogDescription>
-            Allocate isolated team namespace and concurrency version counter.
+            Set up a collaborative project workspace with version sequencing and team access.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-xs font-mono uppercase text-ash mb-1">
-              Sector Name *
+              Project Name *
             </label>
             <Input
               placeholder="e.g. Core Engine Infrastructure"
@@ -102,7 +102,7 @@ export function CreateProjectDialog({ open, onOpenChange }: CreateProjectDialogP
 
           <div>
             <label className="block text-xs font-mono uppercase text-ash mb-1">
-              Operational Scope / Description
+              Project Description
             </label>
             <textarea
               rows={3}
@@ -130,7 +130,7 @@ export function CreateProjectDialog({ open, onOpenChange }: CreateProjectDialogP
               size="sm"
               disabled={isSubmitting || createProject.isPending}
             >
-              {createProject.isPending ? 'COMMITTING...' : 'INITIALIZE PROJECT'}
+              {createProject.isPending ? 'CREATING...' : 'CREATE PROJECT'}
             </Button>
           </div>
         </form>

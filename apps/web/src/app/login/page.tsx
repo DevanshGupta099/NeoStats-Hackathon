@@ -54,33 +54,42 @@ export default function LoginPage() {
         <HeroForge />
       </div>
 
-      {/* Top Telemetry Header */}
+      {/* Top Header */}
       <header className="relative z-10 p-6 flex justify-between items-center select-none">
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-plasma rotate-45" />
-          <span className="font-mono text-xs text-ash tracking-widest uppercase">
-            FORGELINE // CLUSTER.NODE.01
+        <div className="flex items-center space-x-2.5">
+          <div className="w-3 h-3 bg-plasma rotate-45 shadow-[0_0_8px_rgba(184,255,44,0.6)]" />
+          <span className="font-display font-black text-lg tracking-wider text-bone">
+            FORGELINE
+          </span>
+          <span className="hidden sm:inline-block font-mono text-[11px] text-ash/60 px-2 py-0.5 rounded bg-steel/30">
+            ENTERPRISE CONCURRENCY ENGINE
           </span>
         </div>
-        <Badge variant="plasma">STATUS: READY</Badge>
+        <div className="flex items-center space-x-2">
+          <span className="w-2 h-2 rounded-full bg-plasma animate-pulse" />
+          <span className="font-mono text-xs text-plasma font-semibold">ONLINE</span>
+        </div>
       </header>
 
-      {/* Main HUD Form Panel */}
-      <div className="relative z-10 w-full max-w-md mx-auto px-4 py-8">
-        <div className="hud-panel p-6 sm:p-8 hud-corner-brackets shadow-2xl backdrop-blur-md bg-basalt/90 border-steel">
+      {/* Main Form Panel */}
+      <div className="relative z-10 w-full max-w-lg mx-auto px-4 py-6">
+        <div className="hud-panel p-6 sm:p-8 shadow-2xl backdrop-blur-xl bg-basalt/95 border-steel/80 rounded-xl">
           {/* Header */}
           <div className="mb-6">
-            <span className="font-mono text-[10px] text-plasma tracking-widest uppercase block mb-1">
-              // AUTHENTICATION GATEWAY
+            <span className="font-mono text-[11px] text-plasma tracking-wider uppercase font-semibold block mb-1">
+              SECURE WORKSPACE ACCESS
             </span>
-            <h2 className="font-hud text-2xl font-black uppercase text-bone tracking-wide">
-              OPERATOR ACCESS
-            </h2>
+            <h1 className="font-hud text-2xl sm:text-3xl font-black uppercase text-bone tracking-wide">
+              Sign In to Forgeline
+            </h1>
+            <p className="font-body text-xs sm:text-sm text-ash mt-1">
+              Industrial project orchestration with conflict-free optimistic concurrency.
+            </p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-crimson/10 border border-crimson/60 flex items-start space-x-2 text-crimson font-mono text-xs">
+            <div className="mb-4 p-3 bg-crimson/15 border border-crimson/60 rounded-md flex items-start space-x-2 text-crimson font-mono text-xs">
               <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
               <span>{error}</span>
             </div>
@@ -89,23 +98,24 @@ export default function LoginPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block font-mono text-[11px] text-ash uppercase tracking-wider mb-1.5">
-                OPERATOR ID / EMAIL
+              <label className="block font-mono text-xs text-ash uppercase tracking-wider mb-1.5 font-medium">
+                Work Email Address
               </label>
               <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@forgeline.dev"
+                placeholder="operator@forgeline.dev"
                 autoComplete="email"
                 disabled={loading}
                 required
+                className="bg-void/80 border-steel focus:border-plasma h-11"
               />
             </div>
 
             <div>
-              <label className="block font-mono text-[11px] text-ash uppercase tracking-wider mb-1.5">
-                ACCESS KEY / PASSWORD
+              <label className="block font-mono text-xs text-ash uppercase tracking-wider mb-1.5 font-medium">
+                Password
               </label>
               <Input
                 type="password"
@@ -115,68 +125,86 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 disabled={loading}
                 required
+                className="bg-void/80 border-steel focus:border-plasma h-11"
               />
             </div>
 
             <Button
               type="submit"
               variant="primary"
-              className="w-full mt-2"
+              className="w-full mt-2 h-11 font-hud font-bold text-sm tracking-wider"
               disabled={loading}
             >
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  VERIFYING CREDENTIALS...
+                  AUTHENTICATING...
                 </>
               ) : (
                 <>
-                  INITIALIZE FORGE
+                  SIGN IN TO WORKSPACE
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
             </Button>
           </form>
 
-          {/* Quick-Fill Demo Chips */}
-          <div className="mt-8 pt-6 border-t border-steel/60">
+          {/* Quick-Fill Demo Selector */}
+          <div className="mt-8 pt-5 border-t border-steel/60">
             <div className="flex items-center justify-between mb-3">
-              <span className="font-mono text-[10px] text-ash uppercase tracking-wider">
-                DEMO CREDENTIAL SELECTOR
+              <span className="font-mono text-xs text-bone font-semibold uppercase tracking-wider">
+                Instant Demo Access
               </span>
-              <span className="font-mono text-[10px] text-plasma">Forge@12345</span>
+              <span className="font-mono text-[11px] text-plasma bg-plasma/10 px-2 py-0.5 rounded border border-plasma/30">
+                Password: Forge@12345
+              </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              {DEMO_ACCOUNTS.map((acc) => (
-                <button
-                  key={acc.email}
-                  type="button"
-                  onClick={() => handleQuickFill(acc.email)}
-                  className="flex items-center justify-between p-2.5 bg-void/80 border border-steel hover:border-plasma transition-all text-left group cursor-pointer"
-                >
-                  <div>
-                    <span className="block font-hud text-xs font-bold text-bone group-hover:text-plasma transition-colors uppercase">
-                      {acc.label}
-                    </span>
-                    <span className="block font-mono text-[10px] text-ash/70 truncate max-w-[120px]">
-                      {acc.email}
-                    </span>
-                  </div>
-                  <Badge variant={acc.variant} className="ml-1 text-[9px]">
-                    DEMO
-                  </Badge>
-                </button>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {DEMO_ACCOUNTS.map((acc) => {
+                const isSelected = email === acc.email;
+                return (
+                  <button
+                    key={acc.email}
+                    type="button"
+                    onClick={() => handleQuickFill(acc.email)}
+                    className={`flex items-center justify-between p-3 rounded-lg border text-left group cursor-pointer transition-all ${
+                      isSelected
+                        ? 'bg-plasma/10 border-plasma text-bone shadow-[0_0_12px_rgba(184,255,44,0.15)]'
+                        : 'bg-void/70 border-steel/80 hover:border-plasma/60 hover:bg-void text-bone'
+                    }`}
+                  >
+                    <div className="min-w-0 pr-2">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="font-hud text-xs font-bold uppercase tracking-wider text-bone group-hover:text-plasma transition-colors">
+                          {acc.label}
+                        </span>
+                        {isSelected && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-plasma" />
+                        )}
+                      </div>
+                      <span className="block font-mono text-[10px] text-ash truncate mt-0.5">
+                        {acc.email}
+                      </span>
+                    </div>
+                    <Badge variant={acc.variant} className="shrink-0 text-[10px] px-2 py-0.5 font-mono">
+                      {acc.role.replace('_', ' ')}
+                    </Badge>
+                  </button>
+                );
+              })}
             </div>
+            <p className="font-body text-[11px] text-ash/80 text-center mt-3">
+              Click any role above to automatically populate email and password credentials.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Footer Telemetry */}
-      <footer className="relative z-10 p-6 flex flex-col sm:flex-row justify-between items-center text-ash/60 font-mono text-[10px] select-none space-y-2 sm:space-y-0">
-        <span>FORGELINE OS v0.1 // ZERO-OVERWRITE OPTIMISTIC CONCURRENCY</span>
-        <span>SECURITY PROTOCOL: ARGON2ID + ROTATING HTTPONLY REFRESH</span>
+      {/* Footer */}
+      <footer className="relative z-10 p-6 flex flex-col sm:flex-row justify-between items-center text-ash/70 font-mono text-[11px] select-none space-y-2 sm:space-y-0">
+        <span>FORGELINE v1.0 • ZERO-OVERWRITE OPTIMISTIC CONCURRENCY</span>
+        <span>ARGON2ID • ROTATING HTTPONLY REFRESH TOKENS</span>
       </footer>
     </div>
   );

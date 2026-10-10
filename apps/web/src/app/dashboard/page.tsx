@@ -73,33 +73,33 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      {/* 1. Header Hero Banner with ForgeText */}
-      <div className="hud-panel p-5 sm:p-7 hud-corner-brackets bg-basalt/85 border-steel">
+      {/* 1. Header Hero Banner */}
+      <div className="hud-panel p-5 sm:p-7 bg-basalt/90 border-steel/80 rounded-xl shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2 mb-1">
-              <span className="w-2 h-2 rounded-full bg-plasma animate-ping" />
-              <span className="font-mono text-[10px] text-plasma tracking-widest uppercase">
-                // OPERATIONS CONSOLE [SYS_NODE: {user?.handle?.toUpperCase() || 'AGENT'}]
+            <div className="flex items-center space-x-2 mb-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-plasma animate-pulse" />
+              <span className="font-mono text-xs text-plasma tracking-wider uppercase font-semibold">
+                SYSTEM CONSOLE • ACTIVE SESSION: @{user?.handle?.toUpperCase() || 'USER'}
               </span>
             </div>
 
-            <div className="h-14 sm:h-16 flex items-center">
+            <div className="h-12 sm:h-14 flex items-center">
               <ForgeText fontSize={1.2} className="w-full">
-                OPERATIONS FORGE
+                OPERATIONS DASHBOARD
               </ForgeText>
             </div>
 
             <p className="font-body text-xs sm:text-sm text-ash mt-1">
-              Active terminal for <span className="text-bone font-medium">{user?.name}</span> (
-              <span className="text-plasma font-mono">{user?.globalRole}</span>). Core telemetry online.
+              Signed in as <span className="text-bone font-semibold">{user?.name}</span> (
+              <span className="text-plasma font-mono font-medium">{user?.globalRole}</span>). Real-time optimistic concurrency engine active.
             </p>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 shrink-0">
             <Link href="/projects">
-              <Button variant="primary" size="md" className="min-h-[44px]">
-                ACCESS PROJECTS <ArrowRight className="w-4 h-4 ml-1.5" />
+              <Button variant="primary" size="md" className="min-h-[44px] px-5 font-hud font-bold">
+                BROWSE PROJECTS <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             </Link>
           </div>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
                 ASSIGNED TO ME ({myTasks.length})
               </h3>
             </div>
-            <span className="font-mono text-[10px] text-ash">GET /tasks/mine</span>
+            <span className="font-mono text-[10px] text-ash/80">Real-Time Sync</span>
           </div>
 
           {tasksLoading ? (

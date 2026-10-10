@@ -33,6 +33,8 @@ import {
   CheckCircle,
   Clock,
   Sparkles,
+  ArrowLeft,
+  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -139,6 +141,25 @@ export function TaskDetailContent({
 
   return (
     <div className="space-y-6">
+      {/* Optional Back / Close Navigation Bar */}
+      {onClose && (
+        <div className="flex items-center justify-between pb-3 border-b border-steel/60">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onClose}
+            className="text-xs h-8 px-2.5 font-hud hover:border-plasma"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+            BACK / CLOSE
+          </Button>
+          <span className="font-mono text-[10px] text-ash uppercase tracking-wider">
+            TASK WORKSPACE
+          </span>
+        </div>
+      )}
+
       {/* Live Remote Update Alert Banner */}
       {isRecentlyModified && (
         <div className="p-3 bg-plasma/10 border border-plasma rounded flex items-center justify-between text-xs font-mono text-plasma animate-pulse">
@@ -412,6 +433,24 @@ export function TaskDetailContent({
           </div>
         </form>
       </div>
+
+      {/* Footer Close Button */}
+      {onClose && (
+        <div className="pt-4 border-t border-steel/60 flex items-center justify-between">
+          <span className="font-mono text-[10px] text-ash">
+            Concurrency Revision: v{task.version}
+          </span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onClose}
+            className="text-xs font-hud"
+          >
+            DISMISS / CLOSE
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

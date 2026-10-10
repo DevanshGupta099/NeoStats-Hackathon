@@ -48,15 +48,15 @@ export default function ProjectsPage() {
           <div>
             <div className="flex items-center space-x-2 text-plasma mb-1">
               <FolderGit2 className="w-4 h-4" />
-              <span className="font-mono text-[10px] tracking-widest uppercase">
-                // WORKSPACE DIRECTORY
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase">
+                WORKSPACE DIRECTORY
               </span>
             </div>
             <h1 className="font-hud uppercase tracking-wide text-2xl sm:text-3xl font-black text-bone">
-              PROJECT SECTORS
+              PROJECT WORKSPACES
             </h1>
             <p className="font-body text-xs sm:text-sm text-ash mt-1">
-              Isolated operational spaces with individual version sequencing and role-based policy enforcement.
+              Collaborative workspaces with real-time optimistic concurrency and role-based access control.
             </p>
           </div>
 
@@ -184,7 +184,7 @@ export default function ProjectsPage() {
                       href={`/projects/${proj.id}`}
                       className="inline-flex items-center text-xs font-hud uppercase tracking-wider text-plasma hover:underline min-h-[44px]"
                     >
-                      ENTER SECTOR <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                      OPEN PROJECT <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Link>
 
                     {/* Admin Archive / Restore Controls */}

@@ -91,13 +91,15 @@ export function ForgeText({
         {children}
       </span>
 
-      {/* DOM Placeholder to preserve bounding box and SSR */}
+      {/* DOM Visible Typography */}
       <div
         ref={containerRef}
-        className="w-full h-full flex items-center justify-center opacity-0 pointer-events-auto"
-        aria-hidden="true"
+        className="w-full h-full flex items-center justify-start pointer-events-auto"
       >
-        <span className="font-display uppercase tracking-tight text-transparent">
+        <span
+          className="font-display font-black uppercase tracking-tight text-bone text-2xl sm:text-3xl"
+          style={{ color }}
+        >
           {children}
         </span>
       </div>

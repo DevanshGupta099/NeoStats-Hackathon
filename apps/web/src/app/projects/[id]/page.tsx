@@ -101,9 +101,9 @@ export default function ProjectWorkspacePage() {
                 variant="outline"
                 size="sm"
                 onClick={() => router.push('/projects')}
-                className="h-7 px-2 text-[10px]"
+                className="h-7 px-2.5 text-xs font-hud hover:border-plasma"
               >
-                <ArrowLeft className="w-3 h-3 mr-1" /> ALL SECTORS
+                <ArrowLeft className="w-3.5 h-3.5 mr-1" /> ALL PROJECTS
               </Button>
               <span className="font-mono text-xs font-bold text-plasma px-2 py-0.5 bg-plasma/10 border border-plasma/30 rounded">
                 [{project.key}]

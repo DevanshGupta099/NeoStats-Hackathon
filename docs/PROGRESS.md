@@ -17,16 +17,18 @@ Current phase: Fast-Track Block C (Done) -> Block D (Next)
 | 10 | done | main / v1.0 | README final, demo script, ARCHITECTURE.md, AI_USAGE.md, 4 viva study guides, fresh clone verification |
 
 ### Recent decisions:
-- Completed Fast-Track Block F: Added AiService and AiController with streaming SSE standup digest and structured task drafting.
-- Added comprehensive unit tests with mocked Mistral HTTP completions and 429 exponential backoff retry verification.
-- Integrated AI Standup Digest terminal sheet and Smart Add task drafting with full graceful offline fallbacks.
-- Authored ARCHITECTURE.md, DEMO_SCRIPT.md, AI_USAGE.md, and four viva interview study guides in docs/EXPLAINED/.
-- Refreshed seed data with realistic multi-status tasks, @mentions, and unread notifications for admin and engineers.
+- Fixed `Cannot GET /api/v1` error by registering root `AppController` and standardizing API discovery at `/api/v1` and `/`.
+- Enriched database seed data (`seed.ts`) with 40 active tasks distributed across all roles (Admin, PM, Engineers) with realistic due dates.
+- Redesigned Login screen: eliminated clipped demo badges, provided unconstrained email text, and improved responsive glassmorphic cards.
+- Overhauled `StatTotems` and `ForgeText`: guaranteed visible high-contrast count typography directly in DOM alongside 3D visual arrays.
+- Replaced robotic sci-fi jargon across the application with clean, modern SaaS labels ("Operations Overview", "Projects Directory", etc.).
+- Added explicit Cancel, Back, and Close buttons to all dialogs, sheets, drawers, and detail pages.
+- Modernized theme with atmospheric radial gradients, sleek glassmorphism, refined borders, and subtle corner accents in `globals.css`.
 
 ### Known issues:
-- None. System is fully stable with zero typecheck or build errors.
+- None. Production builds (`pnpm -r build`) and typechecks (`pnpm -r typecheck`) pass cleanly with zero errors.
 
 ### Next 3 actions:
-1. Verify fresh clone in a clean temporary directory following ONLY the README.
-2. Confirm no API keys or .env secrets are tracked in git history.
-3. Merge feat/ai to main, tag v1.0, and push all commits and tags to origin.
+1. Stage and commit UI/UX polish changes and API enhancements.
+2. Update git tag v1.0 and push to origin.
+3. Verify live local server demo readiness.

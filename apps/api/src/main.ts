@@ -20,6 +20,15 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('api/v1');
 
+  // Handle bare root GET / with redirect to /api/v1
+  const httpAdapter = app.getHttpAdapter();
+  if (httpAdapter && typeof (httpAdapter as any).getInstance === 'function') {
+    const expressApp = (httpAdapter as any).getInstance();
+    expressApp.get('/', (_req: any, res: any) => {
+      res.redirect('/api/v1');
+    });
+  }
+
   // Cookies for JWT authentication
   app.use(cookieParser());
 

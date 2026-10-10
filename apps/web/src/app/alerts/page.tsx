@@ -53,12 +53,12 @@ export default function AlertsPage() {
           <div>
             <div className="flex items-center space-x-2 text-ice mb-1">
               <Bell className="w-4 h-4 animate-pulse" />
-              <span className="font-mono text-[10px] tracking-widest uppercase">
-                // SYSTEM DISPATCH & TELEMETRY ALERTS
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase">
+                SYSTEM ALERTS & NOTIFICATIONS
               </span>
             </div>
             <h1 className="font-hud uppercase tracking-wide text-2xl sm:text-3xl font-black text-bone">
-              NOTIFICATIONS STREAM
+              NOTIFICATIONS INBOX
             </h1>
             <p className="font-body text-xs sm:text-sm text-ash mt-1">
               Real-time inbox for task assignments, @mentions, and system status updates.

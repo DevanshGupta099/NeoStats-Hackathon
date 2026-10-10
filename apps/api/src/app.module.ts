@@ -7,6 +7,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
 import { EventsModule } from './common/events/events.module';
 import { PolicyModule } from './common/policy/policy.module';
 import { HealthController } from './health/health.controller';
+import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProjectsModule } from './modules/projects/projects.module';
@@ -63,7 +64,7 @@ import { PolicyGuard } from './common/policy/policy.guard';
     RealtimeModule,
     AiModule,
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, AppController],
   providers: [
     {
       provide: APP_FILTER,

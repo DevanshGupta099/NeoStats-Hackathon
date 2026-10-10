@@ -32,15 +32,15 @@ export default function ActivityStreamPage() {
           <div>
             <div className="flex items-center space-x-2 text-plasma mb-1">
               <Activity className="w-4 h-4 animate-pulse" />
-              <span className="font-mono text-[10px] tracking-widest uppercase">
-                // AUDIT TRAIL TELEMETRY
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase">
+                AUDIT TRAIL & ACTIVITY LOG
               </span>
             </div>
             <h1 className="font-hud uppercase tracking-wide text-2xl sm:text-3xl font-black text-bone">
-              SYSTEM ACTIVITY TIMELINE
+              ACTIVITY TIMELINE
             </h1>
             <p className="font-body text-xs sm:text-sm text-ash mt-1">
-              Immutable chronological record of project mutations, status updates, and collaborator dispatches.
+              Chronological audit trail of project changes, task revisions, and team dispatches.
             </p>
           </div>
 

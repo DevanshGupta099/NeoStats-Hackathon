@@ -281,15 +281,15 @@ interface CreateUserFormValues {
           <div>
             <div className="flex items-center space-x-2 text-ember mb-1">
               <ShieldCheck className="w-4 h-4" />
-              <span className="font-mono text-[10px] tracking-widest uppercase">
-                // SYSTEM ADMINISTRATION & SECURITY
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase">
+                SYSTEM ADMINISTRATION
               </span>
             </div>
             <h1 className="font-hud uppercase tracking-wide text-2xl sm:text-3xl font-black text-bone">
-              PERSONNEL DIRECTORY
+              USER DIRECTORY & ACCESS
             </h1>
             <p className="font-body text-xs sm:text-sm text-ash mt-1">
-              Global authorization controls, token-version session severance, and user provisioning.
+              Manage team accounts, assign global roles, and handle account status.
             </p>
           </div>
 
@@ -300,7 +300,7 @@ interface CreateUserFormValues {
               onClick={() => setCreateDialogOpen(true)}
               className="min-h-[44px]"
             >
-              <UserPlus className="w-4 h-4 mr-1.5" /> PROVISION USER
+              <UserPlus className="w-4 h-4 mr-1.5" /> NEW USER
             </Button>
           </div>
         </div>
@@ -363,9 +363,9 @@ interface CreateUserFormValues {
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>PROVISION NEW OPERATOR</DialogTitle>
+            <DialogTitle>CREATE NEW USER</DialogTitle>
             <DialogDescription>
-              Create authenticated credentials and set global clearance role.
+              Create user credentials and assign a global role.
             </DialogDescription>
           </DialogHeader>
 
@@ -421,7 +421,7 @@ interface CreateUserFormValues {
                 CANCEL
               </Button>
               <Button type="submit" variant="primary" size="sm" disabled={isCreating || createUser.isPending}>
-                {createUser.isPending ? 'COMMITTING...' : 'DISPATCH ACCOUNT'}
+                {createUser.isPending ? 'CREATING...' : 'CREATE USER'}
               </Button>
             </div>
           </form>

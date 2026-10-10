@@ -207,6 +207,14 @@ export function ProjectDigestSheet({
             <Button
               variant="outline"
               size="sm"
+              onClick={() => onOpenChange(false)}
+              className="h-8 text-xs border-steel text-ash hover:text-bone"
+            >
+              CLOSE
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={startStream}
               disabled={isStreaming}
               className="h-8 text-xs border-steel"

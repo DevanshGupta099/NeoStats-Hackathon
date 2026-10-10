@@ -123,13 +123,13 @@ export function CreateTaskSheet({
         <DialogHeader>
           <div className="flex items-center space-x-2 text-plasma mb-1">
             <PlusCircle className="w-5 h-5" />
-            <span className="font-mono text-[10px] tracking-widest uppercase">
-              // TASK ALLOCATION
+            <span className="font-mono text-[11px] tracking-wider uppercase font-semibold">
+              TASK MANAGEMENT
             </span>
           </div>
-          <DialogTitle>ENQUEUE NEW WORKLOAD</DialogTitle>
+          <DialogTitle>CREATE NEW TASK</DialogTitle>
           <DialogDescription>
-            Register work order with race-safe contiguous project task numbering.
+            Add a task with status, priority, and assigned team members.
           </DialogDescription>
         </DialogHeader>
 
@@ -285,7 +285,7 @@ export function CreateTaskSheet({
               size="sm"
               disabled={isSubmitting || createTask.isPending}
             >
-              {createTask.isPending ? 'COMMITTING...' : 'DISPATCH TASK'}
+              {createTask.isPending ? 'CREATING...' : 'CREATE TASK'}
             </Button>
           </div>
         </form>
