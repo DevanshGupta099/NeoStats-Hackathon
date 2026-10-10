@@ -17,18 +17,16 @@ Current phase: Fast-Track Block C (Done) -> Block D (Next)
 | 10 | done | main / v1.0 | README final, demo script, ARCHITECTURE.md, AI_USAGE.md, 4 viva study guides, fresh clone verification |
 
 ### Recent decisions:
-- Fixed `Cannot GET /api/v1` error by registering root `AppController` and standardizing API discovery at `/api/v1` and `/`.
-- Enriched database seed data (`seed.ts`) with 40 active tasks distributed across all roles (Admin, PM, Engineers) with realistic due dates.
-- Redesigned Login screen: eliminated clipped demo badges, provided unconstrained email text, and improved responsive glassmorphic cards.
-- Overhauled `StatTotems` and `ForgeText`: guaranteed visible high-contrast count typography directly in DOM alongside 3D visual arrays.
-- Replaced robotic sci-fi jargon across the application with clean, modern SaaS labels ("Operations Overview", "Projects Directory", etc.).
-- Added explicit Cancel, Back, and Close buttons to all dialogs, sheets, drawers, and detail pages.
-- Modernized theme with atmospheric radial gradients, sleek glassmorphism, refined borders, and subtle corner accents in `globals.css`.
+- Created high-impact public Landing Page at `/` featuring core tenets, OCC visual comparison, live telemetry ticker, and interactive 4-role matrix.
+- Redesigned Login screen into a responsive Dual-Panel format (Left: branding, system architecture, 1-click demo role selector, live status; Right: glassmorphic login panel).
+- Resolved Real-Time Cross-Window Synchronization: In `RealtimeGateway`, broadcast project lifecycle events globally to all sockets so newly created projects instantly appear in incognito/multi-window sessions without manual refresh.
+- Re-architected Operations Overview (`StatTotems`): Replaced blank/unreliable WebGL tracking with ultra-vibrant, animated SVG/DOM Sprint Workload bar charts, live distribution spectrum, and high-contrast metric cards.
+- Enhanced OpenAPI Swagger: Added complete request body schemas (`@ApiBody`), pre-filled demo examples, and global bearer JWT authorization.
 
 ### Known issues:
 - None. Production builds (`pnpm -r build`) and typechecks (`pnpm -r typecheck`) pass cleanly with zero errors.
 
 ### Next 3 actions:
-1. Stage and commit UI/UX polish changes and API enhancements.
-2. Update git tag v1.0 and push to origin.
-3. Verify live local server demo readiness.
+1. Verify end-to-end multi-client live tests in both standard and incognito sessions.
+2. Complete production deployment setup (Docker & PaaS steps).
+3. Final demo rehearsal with `demo-api.ps1`.
