@@ -172,7 +172,11 @@ export class ProjectsService {
       entityId: project.id,
       version: project.version,
       timestamp: new Date().toISOString(),
-      data: project,
+      data: {
+        ...project,
+        taskCount: 0,
+        memberCount: 1,
+      },
     });
 
     return project;

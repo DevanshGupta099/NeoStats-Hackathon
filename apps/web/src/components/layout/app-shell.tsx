@@ -8,9 +8,9 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === '/login';
+  const isPublicPage = pathname === '/' || pathname === '/login';
 
-  if (isLoginPage) {
+  if (isPublicPage) {
     return <main className="relative z-10 w-full min-h-screen">{children}</main>;
   }
 

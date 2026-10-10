@@ -245,7 +245,22 @@ export class RealtimeGateway
       return;
     }
 
-    // 4. Project-scoped mutations (tasks, comments, roster, stats)
+    // 4. Project lifecycle mutations (creation, updates, archive, restore, membership)
+    if (
+      envelope.event === RealtimeEvents.PROJECT_UPDATED ||
+      envelope.event === RealtimeEvents.PROJECT_ARCHIVED ||
+      envelope.event === RealtimeEvents.MEMBER_ADDED ||
+      envelope.event === RealtimeEvents.MEMBER_REMOVED
+    ) {
+      // Broadcast to all connected sockets so active project lists update across all windows (incognito, multi-device)
+      this.server.emit(envelope.event, envelope);
+      if (envelope.projectId) {
+        this.server.to(`project:${envelope.projectId}`).emit(envelope.event, envelope);
+      }
+      return;
+    }
+
+    // 5. Project-scoped mutations (tasks, comments, roster, stats)
     if (envelope.projectId) {
       this.server.to(`project:${envelope.projectId}`).emit(envelope.event, envelope);
     }

@@ -214,6 +214,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         queryClient.invalidateQueries({
           queryKey: queryKeys.projects.members(envelope.projectId),
         });
+        queryClient.invalidateQueries({ queryKey: ['projects'] });
       }
     };
 
@@ -222,6 +223,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         queryClient.invalidateQueries({
           queryKey: queryKeys.projects.members(envelope.projectId),
         });
+        queryClient.invalidateQueries({ queryKey: ['projects'] });
       }
     };
 
@@ -442,8 +444,8 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       const proj = envelope.data;
       if (proj && proj.id) {
         queryClient.setQueryData(queryKeys.projects.detail(proj.id), proj);
-        queryClient.invalidateQueries({ queryKey: queryKeys.projects.list() });
       }
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
     };
 
     // K. Activity created
