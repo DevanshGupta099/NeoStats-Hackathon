@@ -11,6 +11,7 @@
     "dev:web": "pnpm --filter @forgeline/web dev",
     "dev:api": "pnpm --filter @forgeline/api dev",
     "build": "pnpm --filter @forgeline/shared build && pnpm --filter @forgeline/api build && pnpm --filter @forgeline/web build",
+    "start:api": "node apps/api/dist/main.js",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
     "db:migrate": "pnpm --filter @forgeline/api db:migrate",
