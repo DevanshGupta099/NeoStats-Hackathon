@@ -7,17 +7,21 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { NotificationsService } from './notifications.service';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Notifications')
+@ApiBearerAuth('bearer-jwt')
 @Controller('notifications')
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Get()
   @ApiOperation({ summary: 'List notifications for authenticated user' })
+  @ApiQuery({ name: 'unread', required: false, type: Boolean, description: 'Filter to unread only' })
+  @ApiQuery({ name: 'cursor', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Paginated user notifications' })
   async listNotifications(
     @CurrentUser('id') userId: string,

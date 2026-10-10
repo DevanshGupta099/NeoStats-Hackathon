@@ -12,7 +12,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiHeader } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiHeader, ApiBearerAuth, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
 import { RequirePermission } from '../../common/policy/require-permission.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -34,6 +34,7 @@ import {
 } from '@forgeline/shared';
 
 @ApiTags('Tasks')
+@ApiBearerAuth('bearer-jwt')
 @Controller()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
@@ -41,6 +42,12 @@ export class TasksController {
   @Get('projects/:projectId/tasks')
   @RequirePermission(Permissions.PROJECT_VIEW)
   @ApiOperation({ summary: 'List and filter tasks for a project with cursor pagination' })
+  @ApiQuery({ name: 'status', required: false, enum: TaskStatus })
+  @ApiQuery({ name: 'priority', required: false, enum: TaskPriority })
+  @ApiQuery({ name: 'assigneeId', required: false, type: String })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'cursor', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'List of tasks' })
   async listTasks(
     @Param('projectId') projectId: string,
@@ -65,6 +72,19 @@ export class TasksController {
   @Post('projects/:projectId/tasks')
   @RequirePermission(Permissions.TASK_CREATE)
   @ApiOperation({ summary: 'Create a new task with race-safe contiguous number (PM or Admin)' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['title'],
+      properties: {
+        title: { type: 'string', example: 'Implement SSE pipeline' },
+        description: { type: 'string', example: 'Setup fast streaming for digests' },
+        status: { type: 'string', enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE'], example: 'TODO' },
+        priority: { type: 'string', enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'], example: 'HIGH' },
+        assigneeId: { type: 'string', example: 'c0a80101-0000-0000-0000-000000000001' },
+      },
+    },
+  })
   @ApiResponse({ status: 201, description: 'Task created' })
   @ApiResponse({ status: 403, description: 'Forbidden (Team Member cannot create)' })
   @UsePipes(new ZodValidationPipe(CreateTaskSchema))
@@ -96,6 +116,18 @@ export class TasksController {
   @RequirePermission(Permissions.TASK_UPDATE)
   @ApiOperation({ summary: 'Update task fields with optimistic concurrency' })
   @ApiHeader({ name: 'if-match', required: false, description: 'Version number for concurrency' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', example: 'Refactor SSE gateway' },
+        description: { type: 'string', example: 'Updated task scope' },
+        status: { type: 'string', enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE'], example: 'IN_PROGRESS' },
+        priority: { type: 'string', enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'], example: 'HIGH' },
+        version: { type: 'integer', example: 1 },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Task updated' })
   @ApiResponse({ status: 403, description: 'Forbidden if unassigned Team Member' })
   @ApiResponse({ status: 409, description: 'Version conflict' })
@@ -114,6 +146,15 @@ export class TasksController {
   @RequirePermission(Permissions.TASK_ASSIGN)
   @ApiOperation({ summary: 'Assign task to a team member (PM or Admin)' })
   @ApiHeader({ name: 'if-match', required: false })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        assigneeId: { type: 'string', example: 'c0a80101-0000-0000-0000-000000000001' },
+        version: { type: 'integer', example: 1 },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Task assigned' })
   @ApiResponse({ status: 403, description: 'Forbidden for Team Members' })
   @ApiResponse({ status: 409, description: 'Version conflict' })
@@ -132,6 +173,16 @@ export class TasksController {
   @RequirePermission(Permissions.TASK_STATUS_CHANGE)
   @ApiOperation({ summary: 'Transition task workflow status' })
   @ApiHeader({ name: 'if-match', required: false })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['status'],
+      properties: {
+        status: { type: 'string', enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE'], example: 'DONE' },
+        version: { type: 'integer', example: 1 },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Status updated' })
   @ApiResponse({ status: 409, description: 'Version conflict' })
   @UsePipes(new ZodValidationPipe(ChangeTaskStatusSchema))
@@ -149,6 +200,17 @@ export class TasksController {
   @RequirePermission(Permissions.TASK_UPDATE)
   @ApiOperation({ summary: 'Move task between columns or adjust board position' })
   @ApiHeader({ name: 'if-match', required: false })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['status', 'position'],
+      properties: {
+        status: { type: 'string', enum: ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE'], example: 'IN_PROGRESS' },
+        position: { type: 'number', example: 2000 },
+        version: { type: 'integer', example: 1 },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Task moved' })
   @ApiResponse({ status: 409, description: 'Version conflict' })
   @UsePipes(new ZodValidationPipe(MoveTaskSchema))

@@ -9,7 +9,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { RequirePermission } from '../../common/policy/require-permission.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -21,6 +21,7 @@ import {
 } from '@forgeline/shared';
 
 @ApiTags('Comments')
+@ApiBearerAuth('bearer-jwt')
 @Controller()
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
@@ -36,6 +37,16 @@ export class CommentsController {
   @Post('tasks/:taskId/comments')
   @RequirePermission(Permissions.COMMENT_CREATE)
   @ApiOperation({ summary: 'Add a comment to a task with @handle mention support' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['body'],
+      properties: {
+        body: { type: 'string', example: 'Ready for peer review @admin', description: 'Comment body with optional @handle mentions' },
+        mentions: { type: 'array', items: { type: 'string' }, example: [], description: 'User IDs mentioned in comment' },
+      },
+    },
+  })
   @ApiResponse({ status: 201, description: 'Comment created' })
   @UsePipes(new ZodValidationPipe(CreateCommentSchema))
   async createComment(

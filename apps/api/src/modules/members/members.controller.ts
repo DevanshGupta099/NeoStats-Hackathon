@@ -10,7 +10,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { MembersService } from './members.service';
 import { RequirePermission } from '../../common/policy/require-permission.decorator';
 import { CurrentUser, AuthenticatedUser } from '../auth/decorators/current-user.decorator';
@@ -24,6 +24,7 @@ import {
 } from '@forgeline/shared';
 
 @ApiTags('Members')
+@ApiBearerAuth('bearer-jwt')
 @Controller('projects/:projectId/members')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
@@ -39,6 +40,16 @@ export class MembersController {
   @Post()
   @RequirePermission(Permissions.PROJECT_MANAGE_MEMBERS)
   @ApiOperation({ summary: 'Add a new member to the project' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['userId'],
+      properties: {
+        userId: { type: 'string', example: 'c0a80101-0000-0000-0000-000000000003', description: 'User ID to add' },
+        projectRole: { type: 'string', enum: ['MANAGER', 'MEMBER', 'VIEWER'], example: 'MEMBER' },
+      },
+    },
+  })
   @ApiResponse({ status: 201, description: 'Member added' })
   @ApiResponse({ status: 403, description: 'Forbidden (e.g. non-admin assigning PM)' })
   @ApiResponse({ status: 409, description: 'User already a member' })
@@ -54,6 +65,15 @@ export class MembersController {
   @Patch(':userId')
   @RequirePermission(Permissions.PROJECT_MANAGE_MEMBERS)
   @ApiOperation({ summary: 'Update project role of an existing member' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['projectRole'],
+      properties: {
+        projectRole: { type: 'string', enum: ['MANAGER', 'MEMBER', 'VIEWER'], example: 'MANAGER' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Member role updated' })
   @UsePipes(new ZodValidationPipe(UpdateProjectMemberSchema))
   async updateMemberRole(

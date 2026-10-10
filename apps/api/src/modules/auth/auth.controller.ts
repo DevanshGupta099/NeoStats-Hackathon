@@ -11,7 +11,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
@@ -40,6 +40,16 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 5, ttl: 60000 } }) // Stricter rate-limiting on login (5 attempts per min)
   @ApiOperation({ summary: 'Login with email and password' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['email', 'password'],
+      properties: {
+        email: { type: 'string', example: 'admin@forgeline.dev', description: 'User account email' },
+        password: { type: 'string', example: 'Forge@12345', description: 'Account password' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Authentication successful, sets httpOnly cookies' })
   @ApiResponse({ status: 401, description: 'Invalid email or password' })
   @ApiResponse({ status: 403, description: 'Account deactivated' })
@@ -113,6 +123,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('bearer-jwt')
   @ApiOperation({ summary: 'Get profile of authenticated user' })
   @ApiResponse({ status: 200, description: 'Authenticated user profile' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -124,7 +135,17 @@ export class AuthController {
 
   @Patch('me')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('bearer-jwt')
   @ApiOperation({ summary: 'Update profile details (name, handle)' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Devansh Gupta' },
+        handle: { type: 'string', example: 'admin' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Profile updated' })
   @ApiResponse({ status: 409, description: 'Handle already taken' })
   @ApiResponse({ status: 422, description: 'Validation failed' })
@@ -142,8 +163,19 @@ export class AuthController {
 
   @Post('change-password')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('bearer-jwt')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Change password and invalidate other sessions' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['currentPassword', 'newPassword'],
+      properties: {
+        currentPassword: { type: 'string', example: 'Forge@12345' },
+        newPassword: { type: 'string', example: 'Forge@NewPassword123' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Password changed successfully' })
   @ApiResponse({ status: 400, description: 'Current password invalid' })
   @UsePipes(new ZodValidationPipe(ChangePasswordSchema))

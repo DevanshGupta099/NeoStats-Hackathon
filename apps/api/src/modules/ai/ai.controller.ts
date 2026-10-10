@@ -6,7 +6,7 @@ import {
   Res,
   UsePipes,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AiService } from './ai.service';
 import { RequirePermission } from '../../common/policy/require-permission.decorator';
@@ -20,6 +20,7 @@ import {
 } from '@forgeline/shared';
 
 @ApiTags('AI')
+@ApiBearerAuth('bearer-jwt')
 @Controller()
 export class AiController {
   constructor(private readonly aiService: AiService) {}
@@ -41,6 +42,16 @@ export class AiController {
   @Post('ai/task-draft')
   @UsePipes(new ZodValidationPipe(TaskDraftRequestSchema))
   @ApiOperation({ summary: 'Generate a structured task payload draft from prompt' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['prompt'],
+      properties: {
+        prompt: { type: 'string', example: 'Refactor database connection pooling to handle 500 concurrent connections' },
+        projectId: { type: 'string', example: 'd4b3e50c-3717-4bed-93c5-12e393899eb1' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Validated structured task draft' })
   async draftTask(
     @Body() dto: TaskDraftRequestInput,

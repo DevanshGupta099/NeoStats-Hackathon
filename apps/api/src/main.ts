@@ -72,8 +72,19 @@ async function bootstrap() {
       'Multi-user collaborative project management engine for NeoStats Hackathon. Implements server-side authorization and optimistic concurrency control.',
     )
     .setVersion('1.0.0')
-    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'bearer-jwt')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        description: 'Enter your JWT access token (obtained from POST /api/v1/auth/login)',
+        in: 'header',
+      },
+      'bearer-jwt',
+    )
     .addCookieAuth('access_token', { type: 'apiKey', in: 'cookie', name: 'access_token' })
+    .addSecurityRequirements('bearer-jwt')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
@@ -84,6 +95,7 @@ async function bootstrap() {
       withCredentials: true,
       tryItOutEnabled: true,
       displayRequestDuration: true,
+      filter: true,
     },
   });
 

@@ -11,7 +11,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiHeader } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiHeader, ApiBearerAuth, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
 import { RequirePermission } from '../../common/policy/require-permission.decorator';
 import { CurrentUser, AuthenticatedUser } from '../auth/decorators/current-user.decorator';
@@ -26,12 +26,16 @@ import {
 } from '@forgeline/shared';
 
 @ApiTags('Projects')
+@ApiBearerAuth('bearer-jwt')
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
   @ApiOperation({ summary: 'List projects (Admin sees all; users see member projects)' })
+  @ApiQuery({ name: 'status', required: false, enum: ProjectStatus, description: 'Filter by project lifecycle status' })
+  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search term for name or key' })
+  @ApiQuery({ name: 'mine', required: false, type: Boolean, description: 'Filter to only projects current user is a member of' })
   @ApiResponse({ status: 200, description: 'List of projects' })
   async listProjects(
     @CurrentUser() user: AuthenticatedUser,
@@ -46,6 +50,17 @@ export class ProjectsController {
   @Post()
   @RequirePermission(Permissions.PROJECT_CREATE)
   @ApiOperation({ summary: 'Create project (Admin only)' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['name', 'key'],
+      properties: {
+        name: { type: 'string', example: 'Titan Mesh Core', description: 'Project display name' },
+        key: { type: 'string', example: 'TTN', description: 'Unique uppercase prefix (2-10 letters)' },
+        description: { type: 'string', example: 'Distributed event processing pipeline', description: 'Optional project description' },
+      },
+    },
+  })
   @ApiResponse({ status: 201, description: 'Project created' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @UsePipes(new ZodValidationPipe(CreateProjectSchema))
@@ -69,6 +84,17 @@ export class ProjectsController {
   @RequirePermission(Permissions.PROJECT_UPDATE)
   @ApiOperation({ summary: 'Update project with optimistic concurrency (Admin or PM only)' })
   @ApiHeader({ name: 'if-match', required: false, description: 'Entity version for concurrency' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Titan Mesh Core v2' },
+        description: { type: 'string', example: 'Updated architecture scope' },
+        status: { type: 'string', enum: ['ACTIVE', 'ARCHIVED', 'SUSPENDED'], example: 'ACTIVE' },
+        version: { type: 'integer', example: 1, description: 'Optimistic concurrency version' },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Project updated' })
   @ApiResponse({ status: 409, description: 'Version conflict' })
   @UsePipes(new ZodValidationPipe(UpdateProjectSchema))
