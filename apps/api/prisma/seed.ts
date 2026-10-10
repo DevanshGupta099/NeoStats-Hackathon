@@ -452,6 +452,26 @@ async function main() {
       readAt: new Date(), // READ
     },
     {
+      recipientHandle: 'admin',
+      actorHandle: 'alex_eng',
+      type: 'task.mentioned',
+      projectKey: 'HLX',
+      entityType: 'comment',
+      entityId: taskMap['HLX-2'],
+      payload: { taskNumber: 2, message: 'Mentioned @admin in HLX-2 regarding concurrency lock fallback' },
+      readAt: null, // UNREAD
+    },
+    {
+      recipientHandle: 'admin',
+      actorHandle: 'sarah_pm',
+      type: 'task.status_changed',
+      projectKey: 'HLX',
+      entityType: 'task',
+      entityId: taskMap['HLX-3'],
+      payload: { taskNumber: 3, title: 'Draft schema for optimistic concurrency version column', status: 'IN_REVIEW' },
+      readAt: null, // UNREAD
+    },
+    {
       recipientHandle: 'sarah_pm',
       actorHandle: 'admin',
       type: 'project.assigned',
